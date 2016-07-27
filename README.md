@@ -1,26 +1,16 @@
 ## OVERVIEW
 This is a full native iPhone app that lets you listen to music via streaming or you can download them onto your device to play offline
 
-![Screenshot](http://imgur.com/Iei3DLP)
-![Screenshot](http://imgur.com/OxJs5V6)
-![Screenshot](http://imgur.com/7wB0LCH)
-![Screenshot](http://imgur.com/Ud5dqZz)
-![Screenshot](http://imgur.com/9vlkGnP)
-![Screenshot](http://imgur.com/mDt1dSg)
-![Screenshot](http://imgur.com/4HEapth)
-![Screenshot](http://imgur.com/k9OuUca)
-![Screenshot](http://imgur.com/eC2fvFG)
-![Screenshot](http://imgur.com/htubXlx)
-
-<img src="http://i.imgur.com/0MGS825.png", alt="Screenshot",  width="200" />
-<img src="http://i.imgur.com/h0bJMlA.png", alt="Screenshot",  width="200" />
-<img src="http://i.imgur.com/0gODZLt.png", alt="Screenshot",  width="200" />
-<img src="http://i.imgur.com/QkjIaCq.png", alt="Screenshot",  width="200" />
-<img src="http://i.imgur.com/OYsBYRb.png", alt="Screenshot",  width="200" />
-<img src="http://i.imgur.com/0jZA8ca.png", alt="Screenshot",  width="200" />
-<img src="http://i.imgur.com/iS9uZ5o.png", alt="Screenshot",  width="200" />
-<img src="http://i.imgur.com/3vMPsL9.png", alt="Screenshot",  width="200" />
-<img src="http://i.imgur.com/c6iqlBT.png", alt="Screenshot",  width="200" />
+![Screenshot](http://i.imgur.com/Iei3DLP.png)
+![Screenshot](http://i.imgur.com/OxJs5V6.png)
+![Screenshot](http://i.imgur.com/7wB0LCH.png)
+![Screenshot](http://i.imgur.com/Ud5dqZz.png)
+![Screenshot](http://i.imgur.com/9vlkGnP.png)
+![Screenshot](http://i.imgur.com/mDt1dSg.png)
+![Screenshot](http://i.imgur.com/4HEapth.png)
+![Screenshot](http://i.imgur.com/k9OuUca.png)
+![Screenshot](http://i.imgur.com/eC2fvFG.png)
+![Screenshot](http://i.imgur.com/htubXlx.png)
 
 ## DEMO
 [![Clip demo](https://img.youtube.com/vi/UvAdcpPhUTE/0.jpg)](https://www.youtube.com/watch?v=UvAdcpPhUTE)
