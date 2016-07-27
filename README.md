@@ -1,16 +1,16 @@
 ## OVERVIEW
 This is a full native iPhone app that lets you listen to music via streaming or you can download them onto your device to play offline
 
-<img src="http://i.imgur.com/AHnokBY.png", alt="Screenshot", width="230", height="408" />
-<img src="http://i.imgur.com/0MGS825.png", alt="Screenshot", width="230", height="408" />
-<img src="http://i.imgur.com/h0bJMlA.png", alt="Screenshot", width="230", height="408" />
-<img src="http://i.imgur.com/0gODZLt.png", alt="Screenshot", width="230", height="408" />
-<img src="http://i.imgur.com/QkjIaCq.png", alt="Screenshot", width="230", height="408" />
-<img src="http://i.imgur.com/OYsBYRb.png", alt="Screenshot", width="230", height="408" />
-<img src="http://i.imgur.com/0jZA8ca.png", alt="Screenshot", width="230", height="408" />
-<img src="http://i.imgur.com/iS9uZ5o.png", alt="Screenshot", width="230", height="408" />
-<img src="http://i.imgur.com/3vMPsL9.png", alt="Screenshot", width="230", height="408" />
-<img src="http://i.imgur.com/c6iqlBT.png", alt="Screenshot", width="230", height="408" />
+![Screenshot](http://i.imgur.com/AHnokBY.png =250x)
+![Screenshot](http://i.imgur.com/0MGS825.png =250x)
+![Screenshot](http://i.imgur.com/h0bJMlA.png =250x)
+![Screenshot](http://i.imgur.com/0gODZLt.png =250x)
+![Screenshot](http://i.imgur.com/QkjIaCq.png =250x)
+![Screenshot](http://i.imgur.com/OYsBYRb.png =250x)
+![Screenshot](http://i.imgur.com/0jZA8ca.png =250x)
+![Screenshot](http://i.imgur.com/iS9uZ5o.png =250x)
+![Screenshot](http://i.imgur.com/3vMPsL9.png =250x)
+![Screenshot](http://i.imgur.com/c6iqlBT.png =250x)
 
 ## DEMO
 [![Clip demo](https://img.youtube.com/vi/UvAdcpPhUTE/0.jpg)](https://www.youtube.com/watch?v=UvAdcpPhUTE)
@@ -22,13 +22,16 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 - Display lyrics, artist, avatar of artist,...
 - Using Firebase to save user's data and playlists
 - Using Core Data to save info of offline music
-- Using MVC
+- Using MVC model
 - Using SWRevealViewController to create slide bar menu
 - Optimizing user interface with Animation and Gesture
-- Optimizing 
-- Play music in background and control with Event Control
+- Optimizing data loading by using Alamofire & SwiftyJSON
+- Optimizing storage
+- Play music in background and control with MPNowPlayingInfoCenter
 - Create custom playlist from any song, download all song in playlist (Upcoming...)
 - Login with Facebook, Google+ (Upcoming...)
+- Record audio using AVAudioRecorder (Upcoming...)
+- Switch two UI mode (night/day) (Upcoming...)
 - Deployment target: iOS 8+
 - Supported devices: iPhone /5/5C/5S/6/6 Plus/6S/6S Plus
 
