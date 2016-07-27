@@ -39,24 +39,17 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 
 - Xcode 7+
 - iOS 8+
-- ARC
 
 ## INSTALLATION
 
-**1.,** Please run ```pod install``` first (the CocoaPods Frameworks and Libraries are not included in the repo). If you haven't used CocoaPods before, you can get started [here](https://guides.cocoapods.org/using/getting-started.html).
+**1.** Run ```pod install``` first (the CocoaPods Frameworks and Libraries are not included in the repo). If you haven't used CocoaPods before, you can get started [here](https://guides.cocoapods.org/using/getting-started.html).
 
-**2.,** Please make an account at [Firebase](https://firebase.google.com) and perform some very basic [setup](https://firebase.google.com/docs/ios/setup).
+**2.** Make an account at [Firebase](https://firebase.google.com) and perform some very basic [setup](https://firebase.google.com/docs/ios/setup).
 
-**3.,** Please download and replace the existing *GoogleService-Info.plist* file from Firebase.
-
-**4.,** Please replace the FIREBASE_STORAGE define value in *AppConstant.h*.
-
-**5.,** In case of using Facebook login, please register your app at [Facebook](https://developers.facebook.com/apps).
-
-**6.,** Then please replace the existing Facebook account details in *Info.plist*.
+**3.** Download and replace the existing *GoogleService-Info.plist* file from Firebase.
 
 ## CONTACT
 
 If you have any questions or idea please contact me at tuandat1079@gmail.com
-Thanks!
+Thank you!
 
