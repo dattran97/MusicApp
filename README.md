@@ -27,6 +27,7 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 - Using Core Data to save info of offline music
 - Using MVC model
 - Using SWRevealViewController to create slide bar menu
+- Using ToastView and SCLAlertView to show messages to user
 - Optimizing user interface with Animation and Gesture
 - Optimizing app performance with Multithreading
 - Minimizing storage
@@ -35,7 +36,7 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 - Create custom playlist from any song, manager or download all song in playlist (Upcoming...)
 - Login with Facebook, Google+ (Upcoming...)
 - Record audio using AVAudioRecorder (Upcoming...)
-- Switch between two user interface [all black/white + purple] (Upcoming...)
+- Switch between two user interface (all black/white + purple) (Upcoming...)
 - Deployment target: iOS 8+
 - Supported devices: iPhone /5/5C/5S/6/6 Plus/6S/6S Plus/SE
 
