@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="fjw-wa-E2a">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="fjw-wa-E2a">
     <dependencies>
         <development version="7000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -278,7 +278,7 @@
                                                         <constraint firstItem="FDt-dt-eLS" firstAttribute="leading" secondItem="bCz-2e-Q14" secondAttribute="trailing" constant="8" id="NKb-ag-EzQ"/>
                                                         <constraint firstAttribute="bottom" secondItem="FDt-dt-eLS" secondAttribute="bottom" constant="10" id="jSy-bl-lqe"/>
                                                         <constraint firstItem="bCz-2e-Q14" firstAttribute="leading" secondItem="8hW-Tt-6dv" secondAttribute="leading" constant="10" id="sNX-qW-GKL"/>
-                                                        <constraint firstItem="X4g-WW-oYR" firstAttribute="width" relation="lessThanOrEqual" secondItem="8hW-Tt-6dv" secondAttribute="width" multiplier="4/10" id="stM-x2-BRt"/>
+                                                        <constraint firstItem="X4g-WW-oYR" firstAttribute="width" relation="lessThanOrEqual" secondItem="8hW-Tt-6dv" secondAttribute="width" multiplier="6/10" id="stM-x2-BRt"/>
                                                         <constraint firstItem="jzf-fh-SeH" firstAttribute="top" secondItem="8hW-Tt-6dv" secondAttribute="top" constant="12" id="zgA-pN-0O7"/>
                                                     </constraints>
                                                 </view>
