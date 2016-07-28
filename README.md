@@ -1,4 +1,5 @@
 ## OVERVIEW
+
 This is a full native iPhone app that lets you listen to music via streaming or you can download them onto your device to play offline
 
 ![Screenshot](http://i.imgur.com/Iei3DLP.png)
@@ -13,27 +14,30 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 ![Screenshot](http://i.imgur.com/htubXlx.png)
 
 ## DEMO
+
 [![Clip demo](https://img.youtube.com/vi/UvAdcpPhUTE/0.jpg)](https://www.youtube.com/watch?v=UvAdcpPhUTE)
 
 ## FEATURES
 
 - Listen to music via streaming, using API from nhaccuatui.com
 - Access your music anywhere without syncing, and save your favorites for offline playback
+- Playing music in background and user can control with MPNowPlayingInfoCenter
 - Display lyrics, artist, avatar of artist,...
-- Using Firebase to save user's data and playlists
+- Using Firebase to save user data and playlist
 - Using Core Data to save info of offline music
 - Using MVC model
 - Using SWRevealViewController to create slide bar menu
 - Optimizing user interface with Animation and Gesture
-- Optimizing data loading by using Alamofire & SwiftyJSON
-- Optimizing storage
-- Play music in background and control with MPNowPlayingInfoCenter
-- Create custom playlist from any song, download all song in playlist (Upcoming...)
+- Optimizing app performance with Multithreading
+- Minimizing storage
+- Perform networking task by using Alamofire
+- Handle JSON with SwiftyJSON
+- Create custom playlist from any song, manager or download all song in playlist (Upcoming...)
 - Login with Facebook, Google+ (Upcoming...)
 - Record audio using AVAudioRecorder (Upcoming...)
-- Switch two UI mode (night/day) (Upcoming...)
+- Switch between two user interface [all black/white + purple] (Upcoming...)
 - Deployment target: iOS 8+
-- Supported devices: iPhone /5/5C/5S/6/6 Plus/6S/6S Plus
+- Supported devices: iPhone /5/5C/5S/6/6 Plus/6S/6S Plus/SE
 
 ## REQUIREMENTS
 
