@@ -21,18 +21,19 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 
 - Listen to music via streaming, using API from nhaccuatui.com
 - Access your music anywhere without syncing, and save your favorites for offline playback
-- Playing music in background and user can control with MPNowPlayingInfoCenter
+- Play music in background and user can control with MPNowPlayingInfoCenter
 - Display lyrics, artist, avatar of artist,...
-- Using Firebase to save user data and playlist
-- Using Core Data to save info of offline music
-- Using MVC model
-- Using SWRevealViewController to create slide bar menu
-- Using ToastView and SCLAlertView to show messages to user
-- Optimizing user interface with Animation and Gesture
-- Optimizing app performance with Multithreading
-- Minimizing storage
+- Use Firebase to save user's data and playlists
+- Use Core Data to archive offline song's infomation
+- Use MVC model
+- Use SWRevealViewController to create slide bar menu
+- Use ToastView and SCLAlertView to show messages to user
+- Optimize user interface with Animation and Gesture
+- Optimize app performance with Multithreading
+- Minimize storage
 - Perform networking task by using Alamofire
 - Handle JSON with SwiftyJSON
+- Identify and manage songs from other sources in device (Upcoming...)
 - Create custom playlist from any song, manager or download all song in playlist (Upcoming...)
 - Login with Facebook, Google+ (Upcoming...)
 - Record audio using AVAudioRecorder (Upcoming...)
