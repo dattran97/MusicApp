@@ -15,7 +15,7 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 
 ## DEMO
 
-[![Clip demo](https://img.youtube.com/vi/UvAdcpPhUTE/0.jpg)](https://www.youtube.com/watch?v=UvAdcpPhUTE)
+[![Clip demo](https://img.youtube.com/vi/58yHohYCTvo/0.jpg)](https://www.youtube.com/watch?v=58yHohYCTvo)
 
 ## FEATURES
 
