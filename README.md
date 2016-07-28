@@ -33,7 +33,7 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 - Minimize storage
 - Perform networking task by using Alamofire
 - Handle JSON with SwiftyJSON
-- Identify and manage songs from other sources in device (Upcoming...)
+- Identify and manage songs from other sources on device's storage (Upcoming...)
 - Create custom playlist from any song, manager or download all song in playlist (Upcoming...)
 - Login with Facebook, Google+ (Upcoming...)
 - Record audio using AVAudioRecorder (Upcoming...)
