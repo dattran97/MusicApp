@@ -19,9 +19,9 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 
 ## FEATURES
 
-- Listen to music via streaming, using API from nhaccuatui.com
-- Access your music anywhere without syncing, and save your favorites for offline playback
-- Play music in background and user can control with MPNowPlayingInfoCenter
+- Stream music using API from nhaccuatui.com
+- Access your song anywhere without syncing, and save your favorites for offline playback
+- Play song in background and user can control with MPNowPlayingInfoCenter
 - Display lyrics, artist, avatar of artist,...
 - Use Firebase to save user's data and playlists
 - Use Core Data to archive offline song's infomation
@@ -37,7 +37,7 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 - Create custom playlist from any song, manager or download all song in playlist (Upcoming...)
 - Login with Facebook, Google+ (Upcoming...)
 - Record audio using AVAudioRecorder (Upcoming...)
-- Switch between two user interface (all black/white + purple) (Upcoming...)
+- Switch between two skins (all black/white + purple) (Upcoming...)
 - Deployment target: iOS 8+
 - Supported devices: iPhone /5/5C/5S/6/6 Plus/6S/6S Plus/SE
 
@@ -56,6 +56,6 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 
 ## CONTACT
 
-If you have any questions or idea please contact me at tuandat1079@gmail.com
-Thank you!
+If you have any questions or idea please contact me at tuandat1079@gmail.com <br />
+Hope to see your feedback soon!
 
