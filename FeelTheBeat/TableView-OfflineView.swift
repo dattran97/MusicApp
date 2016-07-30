@@ -101,14 +101,54 @@ extension OfflineViewController:UITableViewDelegate, UITableViewDataSource{
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
         //Button "Delete"
         let deleteButton = UITableViewRowAction(style: .Default, title: "         ", handler: { (action, indexPath) in
-            if self.handleDeleteSong(songArrOffline[indexPath.row].streamURL, sourceURL: songArrOffline[indexPath.row].sourceURL){
+            //Get song to delete
+            var song:Song = Song()
+            if self.searchBarActive{
+                song = self.songArrFiltered[indexPath.row]
+            }else{
+                if self.sortActive{
+                    song = self.songArrSorted[indexPath.row]
+                }else{
+                    song = songArrOffline[indexPath.row]
+                }
+            }
+            //Delete in device
+            if self.handleDeleteSong(song.streamURL, sourceURL: song.sourceURL){
+                //Delete song in songArr
                 if songArr.count > 0{
-                    if songArr[indexPath.row].streamURL == songArrOffline[indexPath.row].streamURL{
-                        songArr.removeAtIndex(indexPath.row)
+                    for i in 0..<songArr.count {
+                        if songArr[i].streamURL == song.streamURL{
+                            songArr.removeAtIndex(i)
+                            if i < songSelected{
+                                songSelected -= 1
+                            }
+                            break
+                        }
                     }
                 }
-                songArrOffline.removeAtIndex(indexPath.row)
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                //Delete song in tableView
+                if self.searchBarActive{
+                    for i in 0..<songArrOffline.count{
+                        if self.songArrFiltered[indexPath.row].streamURL == songArrOffline[i].streamURL{
+                            songArrOffline.removeAtIndex(i)
+                            break
+                        }
+                    }
+                    self.songArrFiltered.removeAtIndex(indexPath.row)
+                }else{
+                    if self.sortActive{
+                        for i in 0..<songArrOffline.count{
+                            if self.songArrSorted[indexPath.row].streamURL == songArrOffline[i].streamURL{
+                                songArrOffline.removeAtIndex(i)
+                                break
+                            }
+                        }
+                        self.songArrSorted.removeAtIndex(indexPath.row)
+                    }else{
+                        songArrOffline.removeAtIndex(indexPath.row)
+                    }
+                }
+                tableView.reloadData()
             }
         })
         if let img1 = UIImage(named: "rowActionTrash") {
