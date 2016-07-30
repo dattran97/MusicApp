@@ -11,7 +11,7 @@ import AVFoundation
 import Social
 import MediaPlayer
 
-class PlayerViewController: baseViewController{
+class PlayerViewController: baseViewController, UIScrollViewDelegate{
     
     @IBOutlet weak var bg: UIImageView!
     @IBOutlet weak var viewLoading: UIView!
@@ -28,12 +28,15 @@ class PlayerViewController: baseViewController{
     @IBOutlet weak var lblSongArtist: UILabel!
     @IBOutlet weak var txtLyrics: UITextView!
     @IBOutlet weak var navigationBar: UINavigationBar!
-    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var viewArtistAvatar: UIView!
+    @IBOutlet weak var imgArtistAvatar: UIImageView!
     var secs:Int!
     var seconds:Int!
     var minutes:Int!
     var timer:NSTimer = NSTimer()
-    
 //-----------------------------------------View did load-------------------------------------------
     
     override func viewDidLoad() {
@@ -62,6 +65,12 @@ class PlayerViewController: baseViewController{
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PlayerViewController.reloadMainPlayer(_:)), name: "reloadMainPlayer", object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(subPlayerViewController.self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
         reloadDisplay()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        //UIImageView artist's avatar
+        imgArtistAvatar.layer.cornerRadius = imgArtistAvatar.frame.size.height/2
+        imgArtistAvatar.clipsToBounds = true
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -101,15 +110,9 @@ class PlayerViewController: baseViewController{
     @IBAction func btnPlay(sender: AnyObject) {
         //If player is playing
         if player.rate == 1.0{
-            timer.invalidate()
-            btnPlay.setImage(UIImage(named:"play"), forState: .Normal)
-            player.pause()
-            MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 0]
+            pause()
         }else{
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(PlayerViewController.updateSlider), userInfo: nil, repeats: true)
-            btnPlay.setImage(UIImage(named:"pause"), forState: .Normal)
-            player.play()
-            MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
+            play()
         }
     }
     @IBAction func btnMode(sender: AnyObject) {
@@ -156,6 +159,8 @@ class PlayerViewController: baseViewController{
             if player.rate != 1.0{
                 self.btnPlay.setImage(UIImage(named:"pause"), forState: .Normal)
                 player.play()
+                self.imgArtistAvatar.layer.removeAllAnimations()
+                self.rotateSpinningView()
             }
             MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
         }
@@ -171,20 +176,30 @@ class PlayerViewController: baseViewController{
     }
 
 //--------------------------------------Support function--------------------------------------
-    func initDisplay(){
-        sldTime.setThumbImage(UIImage(named: "thumbTint"), forState: .Normal)
-        sldVolume.setThumbImage(UIImage(named: "thumbTint"), forState: .Normal)
-        sldVolume.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
-        sldVolume.minimumValue = 0
-        sldVolume.maximumValue = 1
-        
-        sldTime.minimumValue = 0
-        //add Gesture
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(PlayerViewController.dragNavigationBar))
-        self.navigationBar.addGestureRecognizer(panGesture)
+    func play(){
+        imgArtistAvatar.layer.removeAllAnimations()
+        rotateSpinningView()
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(PlayerViewController.updateSlider), userInfo: nil, repeats: true)
+        btnPlay.setImage(UIImage(named:"pause"), forState: .Normal)
+        player.play()
+        MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
+    }
+    
+    func pause(){
+        imgArtistAvatar.layer.removeAllAnimations()
+        timer.invalidate()
+        btnPlay.setImage(UIImage(named:"play"), forState: .Normal)
+        player.pause()
+        MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 0]
     }
     
     func reloadDisplay(){
+        //Refresh objects in Scroll View
+        tableView.reloadData()
+        let pageNumber = round(scrollView.contentOffset.x / scrollView.frame.size.width)
+        pageControl.currentPage = Int(pageNumber)
+        imgArtistAvatar.loadImageFromUsingCache(songArr[songSelected].avatarURL)
+        
         //Lyrics Textview
         if songArr[songSelected].lyricsURL != ""{
             if songArr[songSelected].lyricsURL.hasPrefix("http"){
@@ -233,9 +248,8 @@ class PlayerViewController: baseViewController{
         //Timer & play/pause Button
         if player.rate == 1.0 {
             timer.invalidate()
-            
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(PlayerViewController.updateSlider), userInfo: nil, repeats: true)
-            btnPlay.setImage(UIImage(named:"pause"), forState: .Normal)
+            player.pause()
+            play()
         }else{
             btnPlay.setImage(UIImage(named:"play"), forState: .Normal)
         }
@@ -256,6 +270,61 @@ class PlayerViewController: baseViewController{
         MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
     }
 
+    func initDisplay(){
+        sldTime.setThumbImage(UIImage(named: "thumbTint"), forState: .Normal)
+        sldVolume.setThumbImage(UIImage(named: "thumbTint"), forState: .Normal)
+        sldVolume.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
+        sldVolume.minimumValue = 0
+        sldVolume.maximumValue = 1
+        
+        sldTime.minimumValue = 0
+        //Add Gesture
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(PlayerViewController.dragNavigationBar))
+        self.navigationBar.addGestureRecognizer(panGesture)
+        
+        //Page Controll
+        scrollView.delegate = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        self.pageControl.numberOfPages = 3
+        self.pageControl.currentPage = 0
+        self.pageControl.pageIndicatorTintColor = UIColor.grayColor()
+        self.pageControl.currentPageIndicatorTintColor = UIColor(red:0.48, green:0.52, blue:0.99, alpha:1.0)
+        pageControl.addTarget(self, action: #selector(PlayerViewController.changePage(_:)), forControlEvents: UIControlEvents.ValueChanged)
+    }
+    
+    //Change page when click on pagecontrol
+    func changePage(sender: AnyObject) -> () {
+        let x = CGFloat(pageControl.currentPage) * scrollView.frame.size.width
+        scrollView.setContentOffset(CGPointMake(x, 0), animated: true)
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        let pageNumber = round(scrollView.contentOffset.x / scrollView.frame.size.width)
+        pageControl.currentPage = Int(pageNumber)
+        if pageNumber == 2 {
+            imgArtistAvatar.layer.removeAllAnimations()
+            rotateSpinningView()
+            bg.image = UIImage(named: "playerBackground2")
+        }else{
+            bg.image = UIImage(named: "playerBackground")
+        }
+    }
+ 
+    //Rotate artist image
+    func rotateSpinningView() {
+        UIView.animateWithDuration(2, delay: 0, options: .CurveLinear, animations: {() -> Void in
+            self.imgArtistAvatar.transform = CGAffineTransformRotate(self.imgArtistAvatar.transform, CGFloat(M_PI_2))
+            }, completion: {(finished: Bool) -> Void in
+                if finished && !CGAffineTransformEqualToTransform(self.imgArtistAvatar.transform, CGAffineTransformIdentity) {
+                    self.rotateSpinningView()
+                }
+            }
+        )
+    }
+    
+    //Change song after finish playing
     func playerDidFinishPlaying(){
         changeSong(true)
         reloadDisplay()

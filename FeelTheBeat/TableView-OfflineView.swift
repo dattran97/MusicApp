@@ -26,37 +26,25 @@ extension OfflineViewController:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! TableViewCell
-        var avatarURL:String = ""
         if searchBarActive{
             cell.lblTitle.text = songArrFiltered[indexPath.row].title
             cell.lblArtist.text = songArrFiltered[indexPath.row].artist
             cell.lblSource.text = songArrFiltered[indexPath.row].host
             cell.lblQuality.text = songArrFiltered[indexPath.row].quality
-            avatarURL = songArrFiltered[indexPath.row].avatarURL
+            cell.imgAvatar.loadImageFromUsingCache(songArrFiltered[indexPath.row].avatarURL)
         }else{
             if sortActive{
                 cell.lblTitle.text = songArrSorted[indexPath.row].title
                 cell.lblArtist.text = songArrSorted[indexPath.row].artist
                 cell.lblSource.text = songArrSorted[indexPath.row].host
                 cell.lblQuality.text = songArrSorted[indexPath.row].quality
-                avatarURL = songArrSorted[indexPath.row].avatarURL
+                cell.imgAvatar.loadImageFromUsingCache(songArrSorted[indexPath.row].avatarURL)
             }else{
                 cell.lblTitle.text = songArrOffline[indexPath.row].title
                 cell.lblArtist.text = songArrOffline[indexPath.row].artist
                 cell.lblSource.text = songArrOffline[indexPath.row].host
                 cell.lblQuality.text = songArrOffline[indexPath.row].quality
-                avatarURL = songArrOffline[indexPath.row].avatarURL
-            }
-        }
-        if avatarURL == "" {
-            cell.imgAvatar.image = UIImage(named: "defaultSongAvatar")
-        }else{
-            let avatarDownloadedDicretory = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String).stringByAppendingString("/AvatarDownloaded")
-            let avatarPath = avatarDownloadedDicretory.stringByAppendingString("/\(avatarURL)")
-            if NSFileManager.defaultManager().fileExistsAtPath(avatarPath) {
-                cell.imgAvatar.image = UIImage(contentsOfFile: avatarPath)
-            }else{
-                cell.imgAvatar.image = UIImage(named: "defaultSongAvatar")
+                cell.imgAvatar.loadImageFromUsingCache(songArrOffline[indexPath.row].avatarURL)
             }
         }
         cell.lblQuality.layer.cornerRadius = 10

@@ -13,25 +13,37 @@ let imageCache = NSCache()
 
 extension UIImageView{
     func loadImageFromUsingCache(urlString: String){
-        self.image = nil
-        //Check cache for image
-        if let downloadedImage = imageCache.objectForKey(urlString) as? UIImage{
-            self.image = downloadedImage
-            return
-        }
-        
-        //Otherwise fire off a new download
-        Alamofire.request(.GET, urlString).responseData { (responseData) in
-            if responseData.result.isFailure{
-                print(responseData.result.error)
+        //Load image online
+        if urlString.hasPrefix("http"){
+            self.image = nil
+            //Check cache for image
+            if let downloadedImage = imageCache.objectForKey(urlString) as? UIImage{
+                self.image = downloadedImage
                 return
             }
-            if let downloadedImage = UIImage(data: responseData.result.value!){
-                imageCache.setObject(downloadedImage, forKey: urlString)
-                self.image = downloadedImage
+            
+            //Otherwise fire off a new download
+            Alamofire.request(.GET, urlString).responseData { (responseData) in
+                if responseData.result.isFailure{
+                    print(responseData.result.error)
+                    return
+                }
+                if let downloadedImage = UIImage(data: responseData.result.value!){
+                    imageCache.setObject(downloadedImage, forKey: urlString)
+                    self.image = downloadedImage
+                }else{
+                    self.image = UIImage(named: "defaultUserAvatar")
+                    return
+                }
+            }
+        //Load image offline
+        }else{
+            let avatarDownloadedDicretory = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String).stringByAppendingString("/AvatarDownloaded")
+            let avatarPath = avatarDownloadedDicretory.stringByAppendingString("/\(urlString)")
+            if NSFileManager.defaultManager().fileExistsAtPath(avatarPath) {
+                self.image = UIImage(contentsOfFile: avatarPath)
             }else{
-                self.image = UIImage(named: "defaultUserAvatar")
-                return
+                self.image = UIImage(named: "defaultSongAvatar")
             }
         }
     }

@@ -1,6 +1,8 @@
 ## OVERVIEW
+
 This is a full native iPhone app that lets you listen to music via streaming or you can download them onto your device to play offline
 
+<<<<<<< HEAD
 <img src="http://i.imgur.com/AHnokBY.png", alt="Screenshot", style="width: 230px; height: 408px" />
 <img src="http://i.imgur.com/0MGS825.png", alt="Screenshot", style="width: 230px; height: 408px" />
 <img src="http://i.imgur.com/h0bJMlA.png", alt="Screenshot", style="width: 230px; height: 408px" />
@@ -11,52 +13,62 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 <img src="http://i.imgur.com/iS9uZ5o.png", alt="Screenshot", style="width: 230px; height: 408px" />
 <img src="http://i.imgur.com/3vMPsL9.png", alt="Screenshot", style="width: 230px; height: 408px" />
 <img src="http://i.imgur.com/c6iqlBT.png", alt="Screenshot", style="width: 230px; height: 408px" />
+=======
+![Screenshot](http://i.imgur.com/Iei3DLP.png)
+![Screenshot](http://i.imgur.com/OxJs5V6.png)
+![Screenshot](http://i.imgur.com/7wB0LCH.png)
+![Screenshot](http://i.imgur.com/Ud5dqZz.png)
+![Screenshot](http://i.imgur.com/9vlkGnP.png)
+![Screenshot](http://i.imgur.com/mDt1dSg.png)
+![Screenshot](http://i.imgur.com/4HEapth.png)
+![Screenshot](http://i.imgur.com/k9OuUca.png)
+![Screenshot](http://i.imgur.com/eC2fvFG.png)
+![Screenshot](http://i.imgur.com/htubXlx.png)
+>>>>>>> 337acf9bef20261f9aa1b9b6830343dd435b5bea
 
 ## DEMO
+
 [![Clip demo](https://img.youtube.com/vi/UvAdcpPhUTE/0.jpg)](https://www.youtube.com/watch?v=UvAdcpPhUTE)
 
 ## FEATURES
 
-- Listen to music via streaming, using API from nhaccuatui.com
-- Access your music anywhere without syncing, and save your favorites for offline playback
+- Stream music using API from nhaccuatui.com
+- Access your song anywhere without syncing, and save your favorites for offline playback
+- Play song in background and user can control with MPNowPlayingInfoCenter
 - Display lyrics, artist, avatar of artist,...
-- Using Firebase to save user's data and playlists
-- Using Core Data to save info of offline music
-- Using MVC model
-- Using SWRevealViewController to create slide bar menu
-- Optimizing user interface with Animation and Gesture
-- Optimizing data loading by using Alamofire & SwiftyJSON
-- Optimizing storage
-- Play music in background and control with MPNowPlayingInfoCenter
-- Create custom playlist from any song, download all song in playlist (Upcoming...)
+- Use Firebase to save user's data and playlists
+- Use Core Data to archive offline song's infomation
+- Use MVC model
+- Use SWRevealViewController to create slide bar menu
+- Use ToastView and SCLAlertView to show messages to user
+- Optimize user interface with Animation and Gesture
+- Optimize app performance with Multithreading
+- Minimize storage
+- Perform networking task by using Alamofire
+- Handle JSON with SwiftyJSON
+- Identify and manage songs from other sources on device's storage (Upcoming...)
+- Create custom playlist from any song, manager or download all song in playlist (Upcoming...)
 - Login with Facebook, Google+ (Upcoming...)
 - Record audio using AVAudioRecorder (Upcoming...)
-- Switch two UI mode (night/day) (Upcoming...)
+- Switch between two skins (all black/white + purple) (Upcoming...)
 - Deployment target: iOS 8+
-- Supported devices: iPhone /5/5C/5S/6/6 Plus/6S/6S Plus
+- Supported devices: iPhone /5/5C/5S/6/6 Plus/6S/6S Plus/SE
 
 ## REQUIREMENTS
 
 - Xcode 7+
 - iOS 8+
-- ARC
 
 ## INSTALLATION
 
-**1.,** Please run ```pod install``` first (the CocoaPods Frameworks and Libraries are not included in the repo). If you haven't used CocoaPods before, you can get started [here](https://guides.cocoapods.org/using/getting-started.html).
+**1.** Run ```pod install``` first (the CocoaPods Frameworks and Libraries are not included in the repo). If you haven't used CocoaPods before, you can get started [here](https://guides.cocoapods.org/using/getting-started.html).
 
-**2.,** Please make an account at [Firebase](https://firebase.google.com) and perform some very basic [setup](https://firebase.google.com/docs/ios/setup).
+**2.** Make an account at [Firebase](https://firebase.google.com) and perform some very basic [setup](https://firebase.google.com/docs/ios/setup).
 
-**3.,** Please download and replace the existing *GoogleService-Info.plist* file from Firebase.
-
-**4.,** Please replace the FIREBASE_STORAGE define value in *AppConstant.h*.
-
-**5.,** In case of using Facebook login, please register your app at [Facebook](https://developers.facebook.com/apps).
-
-**6.,** Then please replace the existing Facebook account details in *Info.plist*.
+**3.** Download and replace the existing *GoogleService-Info.plist* file from Firebase.
 
 ## CONTACT
 
-If you have any questions or idea please contact me at tuandat1079@gmail.com
-Thanks!
+If you have any questions or idea please contact me at tuandat1079@gmail.com <br />
+Hope to see your feedback soon!
 

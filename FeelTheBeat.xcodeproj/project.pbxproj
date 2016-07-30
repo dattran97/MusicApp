@@ -14,6 +14,7 @@
 		4F04BE421D40F7EA0099217E /* profileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F04BE411D40F7EA0099217E /* profileViewController.swift */; };
 		4F04BE441D4111780099217E /* handleProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F04BE431D4111780099217E /* handleProfileView.swift */; };
 		4F117D6E1D3164CD003D5071 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F117D6D1D3164CD003D5071 /* Song.swift */; };
+		4F181AE41D4C68720074FD6A /* tableView-PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F181AE31D4C68720074FD6A /* tableView-PlayerView.swift */; };
 		4F1CB75E1D2E4E83009FBBE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB75D1D2E4E83009FBBE6 /* GoogleService-Info.plist */; };
 		4F1CB7601D2EA076009FBBE6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1CB75F1D2EA076009FBBE6 /* User.swift */; };
 		4F2170DA1D213BD6005EEA7F /* playerSupportFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2170D91D213BD6005EEA7F /* playerSupportFunctions.swift */; };
@@ -49,6 +50,7 @@
 		4F04BE411D40F7EA0099217E /* profileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = profileViewController.swift; sourceTree = "<group>"; };
 		4F04BE431D4111780099217E /* handleProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = handleProfileView.swift; sourceTree = "<group>"; };
 		4F117D6D1D3164CD003D5071 /* Song.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		4F181AE31D4C68720074FD6A /* tableView-PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "tableView-PlayerView.swift"; sourceTree = "<group>"; };
 		4F1CB75D1D2E4E83009FBBE6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4F1CB75F1D2EA076009FBBE6 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4F2170D91D213BD6005EEA7F /* playerSupportFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = playerSupportFunctions.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				4F7E61401CFF2B0100E0D220 /* PlayerViewController.swift */,
+				4F181AE31D4C68720074FD6A /* tableView-PlayerView.swift */,
 				4F02B41A1D22E1910000DACE /* subPlayerViewController.swift */,
 			);
 			name = Player;
@@ -404,6 +407,7 @@
 				4F5829321D3ED94A00D8A8CE /* TableView-slideOutMenu.swift in Sources */,
 				4FD1815B1D359F8600A0B1F2 /* SearchBar-OfflineView.swift in Sources */,
 				4FD181581D34FC3600A0B1F2 /* SearchBar-OnlineView.swift in Sources */,
+				4F181AE41D4C68720074FD6A /* tableView-PlayerView.swift in Sources */,
 				4FBA78261D453B430054CB59 /* handleRowActions.swift in Sources */,
 				4F5DC56E1D48ED5500FB4785 /* supportExtensions.swift in Sources */,
 				4F5829291D3ED2FC00D8A8CE /* slideOutMenuViewController.swift in Sources */,
