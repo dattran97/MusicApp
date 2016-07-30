@@ -2,18 +2,6 @@
 
 This is a full native iPhone app that lets you listen to music via streaming or you can download them onto your device to play offline
 
-<<<<<<< HEAD
-<img src="http://i.imgur.com/AHnokBY.png", alt="Screenshot", style="width: 230px; height: 408px" />
-<img src="http://i.imgur.com/0MGS825.png", alt="Screenshot", style="width: 230px; height: 408px" />
-<img src="http://i.imgur.com/h0bJMlA.png", alt="Screenshot", style="width: 230px; height: 408px" />
-<img src="http://i.imgur.com/0gODZLt.png", alt="Screenshot", style="width: 230px; height: 408px" />
-<img src="http://i.imgur.com/QkjIaCq.png", alt="Screenshot", style="width: 230px; height: 408px" />
-<img src="http://i.imgur.com/OYsBYRb.png", alt="Screenshot", style="width: 230px; height: 408px" />
-<img src="http://i.imgur.com/0jZA8ca.png", alt="Screenshot", style="width: 230px; height: 408px" />
-<img src="http://i.imgur.com/iS9uZ5o.png", alt="Screenshot", style="width: 230px; height: 408px" />
-<img src="http://i.imgur.com/3vMPsL9.png", alt="Screenshot", style="width: 230px; height: 408px" />
-<img src="http://i.imgur.com/c6iqlBT.png", alt="Screenshot", style="width: 230px; height: 408px" />
-=======
 ![Screenshot](http://i.imgur.com/Iei3DLP.png)
 ![Screenshot](http://i.imgur.com/OxJs5V6.png)
 ![Screenshot](http://i.imgur.com/7wB0LCH.png)
@@ -24,7 +12,6 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 ![Screenshot](http://i.imgur.com/k9OuUca.png)
 ![Screenshot](http://i.imgur.com/eC2fvFG.png)
 ![Screenshot](http://i.imgur.com/htubXlx.png)
->>>>>>> 337acf9bef20261f9aa1b9b6830343dd435b5bea
 
 ## DEMO
 
@@ -46,6 +33,7 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 - Minimize storage
 - Perform networking task by using Alamofire
 - Handle JSON with SwiftyJSON
+- Use paging to show playlist, lyrics and artist's avatar in Player interface (Done!!! 30/7/2016)
 - Identify and manage songs from other sources on device's storage (Upcoming...)
 - Create custom playlist from any song, manager or download all song in playlist (Upcoming...)
 - Login with Facebook, Google+ (Upcoming...)
