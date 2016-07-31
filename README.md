@@ -35,7 +35,7 @@ This is a full native iPhone app that lets you listen to music via streaming or 
 - Handle JSON with SwiftyJSON
 - Use paging to show playlist, lyrics and artist's avatar in Player interface (Done!!! 30/7/2016)
 - Identify and manage songs from other sources on device's storage (Upcoming...)
-- Create custom playlist from any song, manager or download all song in playlist (Upcoming...)
+- Create custom playlist from any song, manager or download all songs in playlist (Upcoming...)
 - Login with Facebook, Google+ (Upcoming...)
 - Record audio using AVAudioRecorder (Upcoming...)
 - Switch between two skins (all black/white + purple) (Upcoming...)
