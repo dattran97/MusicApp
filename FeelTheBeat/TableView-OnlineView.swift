@@ -10,22 +10,13 @@ import UIKit
 
 //-------------------------------Custom TableView---------------------------------------
 extension OnlineViewController:UITableViewDelegate, UITableViewDataSource{
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if songArrOnline.count != 0{
-            viewMess.hidden = true
-        }
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 
         return songArrOnline.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! TableViewCell
-        if indexPath.row > songArrOnline.count - 1 {
-            cell.lblTitle?.text = "Unknown"
-            cell.lblArtist?.text = "Unknown"
-            cell.lblSource?.text = "Unknown"
-            cell.imgAvatar?.image = UIImage(named: "defaultSongAvatar")
-            cell.lblQuality?.text = "128kbps"
-        }else{
+        if !(indexPath.row > songArrOnline.count - 1) {
             cell.lblTitle?.text = songArrOnline[indexPath.row].title
             cell.lblArtist?.text = songArrOnline[indexPath.row].artist
             cell.lblSource?.text = songArrOnline[indexPath.row].host
@@ -35,16 +26,15 @@ extension OnlineViewController:UITableViewDelegate, UITableViewDataSource{
                 cell.imgAvatar.image = UIImage(named: "defaultSongAvatar")
             }
             cell.lblQuality?.text = songArrOnline[indexPath.row].quality
+            cell.lblQuality?.layer.cornerRadius = 10
+            cell.lblQuality?.layer.borderWidth = 1
+            cell.lblQuality?.layer.borderColor = cell.lblTitle.textColor.CGColor
+            cell.lblQuality?.textColor = cell.lblTitle.textColor
+            cell.lblQuality?.clipsToBounds = true
+            cell.imgAvatar?.layer.cornerRadius = cell.imgAvatar.frame.size.width/2
+            cell.imgAvatar?.clipsToBounds = true
+            cell.imgAvatar?.tintColor = UIColor(red:0.48, green:0.52, blue:0.99, alpha:1.0)
         }
-        cell.lblQuality?.layer.cornerRadius = 10
-        cell.lblQuality?.layer.borderWidth = 1
-        cell.lblQuality?.layer.borderColor = cell.lblTitle.textColor.CGColor
-        cell.lblQuality?.textColor = cell.lblTitle.textColor
-        cell.lblQuality?.clipsToBounds = true
-        cell.imgAvatar?.layer.cornerRadius = cell.imgAvatar.frame.size.width/2
-        cell.imgAvatar?.clipsToBounds = true
-        cell.imgAvatar?.tintColor = UIColor(red:0.48, green:0.52, blue:0.99, alpha:1.0)
-        
         return cell
     }
     

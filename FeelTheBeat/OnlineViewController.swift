@@ -11,6 +11,7 @@ import SCLAlertView
 
 class OnlineViewController: handleRowActions{
     @IBOutlet weak var viewMess: UIView!
+    @IBOutlet weak var imgMess: UIImageView!
     @IBOutlet weak var lblMess: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -20,6 +21,8 @@ class OnlineViewController: handleRowActions{
     var playListFiltered:[String] = []
     var playListSorted:[String] = []
     
+    var loadingView: UIView = UIView()
+    var activityIndicatorView:UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
     ///ID of source
     var sourceIndex:Int = 0
     let source:[String] = ["nhaccuatui.com", "mp3.zing.vn", "chiasenhac.com"]
@@ -49,6 +52,20 @@ class OnlineViewController: handleRowActions{
         }
         viewMess.hidden = false
         lblMess.text = "Hãy nhập tên bài hát cần tìm vào thanh search ở trên"
+        
+        //Custom ActivityIndicatorView
+        loadingView.frame = CGRectMake(0, 0, 80, 80)
+        loadingView.center = view.center
+        loadingView.backgroundColor = UIColor.blackColor()
+        loadingView.clipsToBounds = true
+        loadingView.layer.cornerRadius = 10
+
+        activityIndicatorView.center = CGPointMake(loadingView.frame.size.width / 2,
+                                    loadingView.frame.size.height / 2);
+        loadingView.addSubview(activityIndicatorView)
+        view.addSubview(loadingView)
+        activityIndicatorView.startAnimating()
+        loadingView.hidden = true
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
