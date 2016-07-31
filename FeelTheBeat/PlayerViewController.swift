@@ -304,8 +304,10 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
         let pageNumber = round(scrollView.contentOffset.x / scrollView.frame.size.width)
         pageControl.currentPage = Int(pageNumber)
         if pageNumber == 2 {
-            imgArtistAvatar.layer.removeAllAnimations()
-            rotateSpinningView()
+            if player.rate == 1.0{
+                imgArtistAvatar.layer.removeAllAnimations()
+                rotateSpinningView()
+            }
             bg.image = UIImage(named: "playerBackground2")
         }else{
             bg.image = UIImage(named: "playerBackground")
