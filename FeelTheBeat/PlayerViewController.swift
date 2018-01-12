@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import Social
 import MediaPlayer
+import Kingfisher
 
 class PlayerViewController: baseViewController, UIScrollViewDelegate{
     
@@ -36,7 +37,7 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
     var secs:Int!
     var seconds:Int!
     var minutes:Int!
-    var timer:NSTimer = NSTimer()
+    var timer:Timer = Timer()
 //-----------------------------------------View did load-------------------------------------------
     
     override func viewDidLoad() {
@@ -46,9 +47,9 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
         if let _:AVPlayer = player{
             //Check if player is playing
             let currentPlayerAsset = player.currentItem?.asset
-            var url:String = (currentPlayerAsset as! AVURLAsset).URL.absoluteString
+            var url:String = (currentPlayerAsset as! AVURLAsset).url.absoluteString
             if !url.hasPrefix("http"){
-                url = url.stringByReplacingOccurrencesOfString(".mp3", withString: "")
+                url = url.replacingOccurrences(of: ".mp3", with: "")
                 if url.hasSuffix("/\(songArr[songSelected].streamURL)"){
                     url = songArr[songSelected].streamURL
                 }
@@ -62,8 +63,8 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
             setSong(songSelected)
             player.play()
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PlayerViewController.reloadMainPlayer(_:)), name: "reloadMainPlayer", object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(subPlayerViewController.self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+        NotificationCenter.default.addObserver(self, selector: #selector(PlayerViewController.reloadMainPlayer(_:)), name: NSNotification.Name(rawValue: "reloadMainPlayer"), object: nil)
+        NotificationCenter.default.removeObserver(subPlayerViewController.self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
         reloadDisplay()
     }
     
@@ -73,19 +74,19 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
         imgArtistAvatar.clipsToBounds = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         timer.invalidate()
     }
     
-    func reloadMainPlayer(notification: NSNotification){
+    func reloadMainPlayer(_ notification: Notification){
         reloadDisplay()
     }
     
-    @IBAction func dragNavigationBar(recognizer: UIPanGestureRecognizer) {
-        let point = recognizer.locationInView(self.view);
-        if(recognizer.state == .Ended){
+    @IBAction func dragNavigationBar(_ recognizer: UIPanGestureRecognizer) {
+        let point = recognizer.location(in: self.view);
+        if(recognizer.state == .ended){
             if point.y > self.view.frame.height/2{
-                dismissViewControllerAnimated(true, completion: nil)
+                dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -94,20 +95,20 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
     /**
     Hide sliderVolume after touch bg
     */
-    @IBAction func bg(sender: AnyObject) {
-        sldVolume.hidden = true
+    @IBAction func bg(_ sender: AnyObject) {
+        sldVolume.isHidden = true
     }
     
-    @IBAction func barBtnShare(sender: AnyObject) {
+    @IBAction func barBtnShare(_ sender: AnyObject) {
         let vc = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-        vc.setInitialText("Tôi đang nghe bài hát \(songArr[songSelected].title) với chất lượng cao trên app Lossless Music :\"> ")
-        presentViewController(vc, animated: true, completion: nil)
+        vc?.setInitialText("Tôi đang nghe bài hát \(songArr[songSelected].title) với chất lượng cao trên app Lossless Music :\"> ")
+        present(vc!, animated: true, completion: nil)
     }
-    @IBAction func barBtnBackMenu(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func barBtnBackMenu(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func btnPlay(sender: AnyObject) {
+    @IBAction func btnPlay(_ sender: AnyObject) {
         //If player is playing
         if player.rate == 1.0{
             pause()
@@ -115,56 +116,56 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
             play()
         }
     }
-    @IBAction func btnMode(sender: AnyObject) {
+    @IBAction func btnMode(_ sender: AnyObject) {
         switch playerMode {
         case "shuffe":
             playerMode = "repeatAll"
-            btnMode.setImage(UIImage(named: "repeatAll"), forState: .Normal)
+            btnMode.setImage(UIImage(named: "repeatAll"), for: UIControlState())
         case "repeatAll":
             playerMode = "repeatOne"
-            btnMode.setImage(UIImage(named: "repeatOne"), forState: .Normal)
+            btnMode.setImage(UIImage(named: "repeatOne"), for: UIControlState())
         case "repeatOne":
             playerMode = "shuffe"
-            btnMode.setImage(UIImage(named: "shuffe"), forState: .Normal)
+            btnMode.setImage(UIImage(named: "shuffe"), for: UIControlState())
             let indexArr = Array(0..<songArr.count)
             songArrShuffed = indexArr.shuffle()
         default:
             break
         }
     }
-    @IBAction func btnPrev(sender: AnyObject) {
+    @IBAction func btnPrev(_ sender: AnyObject) {
         changeSong(false)
         reloadDisplay()
     }
-    @IBAction func btnNext(sender: AnyObject) {
+    @IBAction func btnNext(_ sender: AnyObject) {
         changeSong(true)
         reloadDisplay()
     }
-    @IBAction func btnVolume(sender: AnyObject) {
-        sldVolume.hidden = (sldVolume.hidden == false) ? true : false
+    @IBAction func btnVolume(_ sender: AnyObject) {
+        sldVolume.isHidden = (sldVolume.isHidden == false) ? true : false
     }
-    @IBAction func sldVolume(sender: AnyObject) {
+    @IBAction func sldVolume(_ sender: AnyObject) {
         player.volume = sldVolume.value
         volumeValue = sldVolume.value
         if sldVolume.value == sldVolume.minimumValue {
-            btnVolume.setImage(UIImage(named: "volumeOff"), forState: UIControlState.Normal)
+            btnVolume.setImage(UIImage(named: "volumeOff"), for: UIControlState())
         }else{
-            btnVolume.setImage(UIImage(named: "volumeOn"), forState: UIControlState.Normal)
+            btnVolume.setImage(UIImage(named: "volumeOn"), for: UIControlState())
         }
     }
-    @IBAction func sldTime(sender: AnyObject) {
+    @IBAction func sldTime(_ sender: AnyObject) {
         timer.invalidate()
         
-        player.seekToTime(CMTimeMakeWithSeconds(Float64(sldTime.value), 60000)) { (action) in
+        player.seek(to: CMTimeMakeWithSeconds(Float64(sldTime.value), 60000), completionHandler: { (action) in
             if player.rate != 1.0{
-                self.btnPlay.setImage(UIImage(named:"pause"), forState: .Normal)
+                self.btnPlay.setImage(UIImage(named:"pause"), for: UIControlState())
                 player.play()
                 self.imgArtistAvatar.layer.removeAllAnimations()
                 self.rotateSpinningView()
             }
-            MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
-        }
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(PlayerViewController.updateSlider), userInfo: nil, repeats: true)
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
+        }) 
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(PlayerViewController.updateSlider), userInfo: nil, repeats: true)
     }
     
     func updateSlider(){
@@ -179,18 +180,18 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
     func play(){
         imgArtistAvatar.layer.removeAllAnimations()
         rotateSpinningView()
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(PlayerViewController.updateSlider), userInfo: nil, repeats: true)
-        btnPlay.setImage(UIImage(named:"pause"), forState: .Normal)
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(PlayerViewController.updateSlider), userInfo: nil, repeats: true)
+        btnPlay.setImage(UIImage(named:"pause"), for: UIControlState())
         player.play()
-        MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
     }
     
     func pause(){
         imgArtistAvatar.layer.removeAllAnimations()
         timer.invalidate()
-        btnPlay.setImage(UIImage(named:"play"), forState: .Normal)
+        btnPlay.setImage(UIImage(named:"play"), for: UIControlState())
         player.pause()
-        MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 0]
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 0]
     }
     
     func reloadDisplay(){
@@ -198,14 +199,14 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
         tableView.reloadData()
         let pageNumber = round(scrollView.contentOffset.x / scrollView.frame.size.width)
         pageControl.currentPage = Int(pageNumber)
-        imgArtistAvatar.loadImageFromUsingCache(songArr[songSelected].avatarURL)
+        imgArtistAvatar.kf.setImage(with: URL(string: songArr[songSelected].avatarURL))
         
         //Lyrics Textview
         if songArr[songSelected].lyricsURL != ""{
             if songArr[songSelected].lyricsURL.hasPrefix("http"){
-                let url = NSURL(string: songArr[songSelected].lyricsURL)
+                let url = URL(string: songArr[songSelected].lyricsURL)
                 do{
-                    let lyrics = try String(contentsOfURL: url!)
+                    let lyrics = try String(contentsOf: url!)
                     let decodedString = String(htmlEncodedString: lyrics)
                     txtLyrics.text = decodedString
                 }catch{
@@ -223,7 +224,7 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
         sldTime.maximumValue = Float(CMTimeGetSeconds(playerItem.asset.duration))
         sldTime.value = Float(CMTimeGetSeconds(playerItem.currentTime()))
         if sldVolume.value == sldVolume.minimumValue {
-            btnVolume.setImage(UIImage(named: "volumeOff"), forState: UIControlState.Normal)
+            btnVolume.setImage(UIImage(named: "volumeOff"), for: UIControlState())
         }
 
         
@@ -234,15 +235,15 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
         //Mode Button
         switch playerMode {
         case "repeatAll":
-            btnMode.setImage(UIImage(named: "repeatAll"), forState: .Normal)
+            btnMode.setImage(UIImage(named: "repeatAll"), for: UIControlState())
         case "repeatOne":
-            btnMode.setImage(UIImage(named: "repeatOne"), forState: .Normal)
+            btnMode.setImage(UIImage(named: "repeatOne"), for: UIControlState())
         case "shuffe":
-            btnMode.setImage(UIImage(named: "shuffe"), forState: .Normal)
+            btnMode.setImage(UIImage(named: "shuffe"), for: UIControlState())
             let indexArr = Array(0..<songArr.count)
             songArrShuffed = indexArr.shuffle()
         default:
-            btnMode.setImage(UIImage(named: "repeatAll"), forState: .Normal)
+            btnMode.setImage(UIImage(named: "repeatAll"), for: UIControlState())
         }
         
         //Timer & play/pause Button
@@ -251,7 +252,7 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
             player.pause()
             play()
         }else{
-            btnPlay.setImage(UIImage(named:"play"), forState: .Normal)
+            btnPlay.setImage(UIImage(named:"play"), for: UIControlState())
         }
         
         //Duration Label
@@ -265,15 +266,15 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
         seconds = (Int)(secs%60)
         lblCurTime.text = (String)(minutes) + ":" +  ((seconds < 10) ? "0" : "") + (String)(seconds)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(playerDidFinishPlaying), name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+        NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
         //MPNowPlayingInfoCenter
-        MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
     }
 
     func initDisplay(){
-        sldTime.setThumbImage(UIImage(named: "thumbTint"), forState: .Normal)
-        sldVolume.setThumbImage(UIImage(named: "thumbTint"), forState: .Normal)
-        sldVolume.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI_2))
+        sldTime.setThumbImage(UIImage(named: "thumbTint"), for: UIControlState())
+        sldVolume.setThumbImage(UIImage(named: "thumbTint"), for: UIControlState())
+        sldVolume.transform = CGAffineTransform(rotationAngle: CGFloat(-M_PI_2))
         sldVolume.minimumValue = 0
         sldVolume.maximumValue = 1
         
@@ -289,18 +290,18 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
         
         self.pageControl.numberOfPages = 3
         self.pageControl.currentPage = 0
-        self.pageControl.pageIndicatorTintColor = UIColor.grayColor()
+        self.pageControl.pageIndicatorTintColor = UIColor.gray
         self.pageControl.currentPageIndicatorTintColor = UIColor(red:0.48, green:0.52, blue:0.99, alpha:1.0)
-        pageControl.addTarget(self, action: #selector(PlayerViewController.changePage(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        pageControl.addTarget(self, action: #selector(PlayerViewController.changePage(_:)), for: UIControlEvents.valueChanged)
     }
     
     //Change page when click on pagecontrol
-    func changePage(sender: AnyObject) -> () {
+    func changePage(_ sender: AnyObject) -> () {
         let x = CGFloat(pageControl.currentPage) * scrollView.frame.size.width
-        scrollView.setContentOffset(CGPointMake(x, 0), animated: true)
+        scrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageNumber = round(scrollView.contentOffset.x / scrollView.frame.size.width)
         pageControl.currentPage = Int(pageNumber)
         if pageNumber == 2 {
@@ -316,10 +317,10 @@ class PlayerViewController: baseViewController, UIScrollViewDelegate{
  
     //Rotate artist image
     func rotateSpinningView() {
-        UIView.animateWithDuration(2, delay: 0, options: .CurveLinear, animations: {() -> Void in
-            self.imgArtistAvatar.transform = CGAffineTransformRotate(self.imgArtistAvatar.transform, CGFloat(M_PI_2))
+        UIView.animate(withDuration: 2, delay: 0, options: .curveLinear, animations: {() -> Void in
+            self.imgArtistAvatar.transform = self.imgArtistAvatar.transform.rotated(by: CGFloat.pi/2)
             }, completion: {(finished: Bool) -> Void in
-                if finished && !CGAffineTransformEqualToTransform(self.imgArtistAvatar.transform, CGAffineTransformIdentity) {
+                if finished && self.imgArtistAvatar.transform != CGAffineTransform.identity {
                     self.rotateSpinningView()
                 }
             }

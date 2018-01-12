@@ -28,15 +28,15 @@ class slideOutMenuViewController: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        desViewArr.append(storyboard!.instantiateViewControllerWithIdentifier("SignInView") as! SignInViewController)
-        desViewArr.append(storyboard!.instantiateViewControllerWithIdentifier("containerView") as! ContainerViewController)
-        desViewArr.append(storyboard!.instantiateViewControllerWithIdentifier("containerView") as! ContainerViewController)
-        desViewArr.append(storyboard!.instantiateViewControllerWithIdentifier("containerView") as! ContainerViewController)
-        desViewArr.append(storyboard!.instantiateViewControllerWithIdentifier("containerView") as! ContainerViewController)
-        desViewArr.append(storyboard!.instantiateViewControllerWithIdentifier("containerView") as! ContainerViewController)
-        desViewArr.append(storyboard!.instantiateViewControllerWithIdentifier("containerView") as! ContainerViewController)
-        desViewArr.append(storyboard!.instantiateViewControllerWithIdentifier("SignInView") as! SignInViewController)
-        desViewArr.append(storyboard!.instantiateViewControllerWithIdentifier("SignInView") as! SignInViewController)
+        desViewArr.append(storyboard!.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController)
+        desViewArr.append(storyboard!.instantiateViewController(withIdentifier: "containerView") as! ContainerViewController)
+        desViewArr.append(storyboard!.instantiateViewController(withIdentifier: "containerView") as! ContainerViewController)
+        desViewArr.append(storyboard!.instantiateViewController(withIdentifier: "containerView") as! ContainerViewController)
+        desViewArr.append(storyboard!.instantiateViewController(withIdentifier: "containerView") as! ContainerViewController)
+        desViewArr.append(storyboard!.instantiateViewController(withIdentifier: "containerView") as! ContainerViewController)
+        desViewArr.append(storyboard!.instantiateViewController(withIdentifier: "containerView") as! ContainerViewController)
+        desViewArr.append(storyboard!.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController)
+        desViewArr.append(storyboard!.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController)
     }
     
     override func viewDidLayoutSubviews() {
@@ -44,11 +44,11 @@ class slideOutMenuViewController: UIViewController {
         setProfile()
         if userInfo.uid != ""{
             menuArr[0][0] = "Thông tin tài khoản"
-            desViewArr[0] = storyboard!.instantiateViewControllerWithIdentifier("profileView") as! profileViewController
+            desViewArr[0] = storyboard!.instantiateViewController(withIdentifier: "profileView") as! profileViewController
             tableView.reloadData()
         }else{
             menuArr[0][0] = "Đăng nhập/Đăng ký"
-            desViewArr[0] = storyboard!.instantiateViewControllerWithIdentifier("SignInView") as! SignInViewController
+            desViewArr[0] = storyboard!.instantiateViewController(withIdentifier: "SignInView") as! SignInViewController
             tableView.reloadData()
         }
     }
@@ -59,7 +59,7 @@ class slideOutMenuViewController: UIViewController {
             lblMess.text = "Chào bạn!                      "
         }else{
             if userInfo.avatarURL != ""{
-                imgUserAvatar.loadImageFromUsingCache(userInfo.avatarURL)
+                imgUserAvatar.kf.setImage(with: URL(string: userInfo.avatarURL))
             }else{
                 imgUserAvatar.image = UIImage(named: "defaultUserAvatar")
             }
@@ -68,12 +68,12 @@ class slideOutMenuViewController: UIViewController {
         view.layoutIfNeeded()
         imgUserAvatar.layer.cornerRadius = self.imgUserAvatar.bounds.size.width/2
         imgUserAvatar.clipsToBounds = true
-        self.view.backgroundColor = UIColor.whiteColor()
-        self.tableView.backgroundColor = UIColor.clearColor()
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.view.backgroundColor = UIColor.white
+        self.tableView.backgroundColor = UIColor.clear
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
 }

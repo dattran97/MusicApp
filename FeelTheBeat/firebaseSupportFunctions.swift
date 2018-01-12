@@ -11,27 +11,27 @@ import Firebase
 
 class firebaseSupportFunctions: UIViewController {
     func initUserInfo(){
-        if let user = FIRAuth.auth()?.currentUser{
+        if let user = Auth.auth().currentUser{
             userInfo.uid = user.uid
             userInfo.email = user.email
-            let queue = dispatch_queue_create("signIn", DISPATCH_QUEUE_CONCURRENT)
-            dispatch_async(queue) {
-                let ref = FIRDatabase.database().referenceFromURL("https://project-2302273330949501085.firebaseio.com/")
-                ref.child("users").child(user.uid).observeEventType(.Value, withBlock: { snapshot in
-                    if let fullName:String = snapshot.value!["name"] as? String {
+            let queue = DispatchQueue(label: "signIn", attributes: DispatchQueue.Attributes.concurrent)
+            queue.async {
+                let ref = Database.database().reference(fromURL: "https://project-2302273330949501085.firebaseio.com/")
+                ref.child("users").child(user.uid).observe(.value, with: { snapshot in
+                    if let fullName:String = snapshot.value(forKey: "name") as? String {
                         userInfo.fullName = fullName
-                        let fullNameArr = fullName.componentsSeparatedByString(" ")
+                        let fullNameArr = fullName.components(separatedBy: " ")
                         userInfo.lastName = fullNameArr[fullNameArr.count - 1]
                     }
-                    if let country:String = snapshot.value!["country"] as? String {
+                    if let country:String = snapshot.value(forKey: "country") as? String {
                         userInfo.country = country
                     }
-                    if let birthday:String = snapshot.value!["birthday"] as? String {
-                        let dateFormatter = NSDateFormatter()
+                    if let birthday:String = snapshot.value(forKey: "birthday") as? String {
+                        let dateFormatter = DateFormatter()
                         dateFormatter.dateFormat = "dd/MM/yyyy"
-                        userInfo.birthday = dateFormatter.dateFromString(birthday)
+                        userInfo.birthday = dateFormatter.date(from: birthday) as! Date
                     }
-                    if let avatarURL:String = snapshot.value!["avatar"] as? String {
+                    if let avatarURL:String = snapshot.value(forKey: "avatar") as? String {
                         userInfo.avatarURL = avatarURL
                     }
                 })

@@ -28,15 +28,15 @@ class baseViewController: UIViewController {
         super.viewDidLoad()
     }
 //--------------------------------------Support function--------------------------------------    
-    func setSong(songSelected:Int){
-        var url = NSURL(string: songArr[songSelected].streamURL)
+    func setSong(_ songSelected:Int){
+        var url = URL(string: songArr[songSelected].streamURL)
         if !(songArr[songSelected].streamURL.hasPrefix("http")){
-            let songDownloadedDicretory = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String).stringByAppendingString("/SongDownloaded")
-            let path = NSBundle.pathForResource(songArr[songSelected].streamURL, ofType: "mp3", inDirectory: songDownloadedDicretory)
-            url = NSURL(fileURLWithPath: path!)
+            let songDownloadedDicretory = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String) + "/SongDownloaded"
+            let path = Bundle.path(forResource: songArr[songSelected].streamURL, ofType: "mp3", inDirectory: songDownloadedDicretory)
+            url = URL(fileURLWithPath: path!)
         }
         do{
-            playerItem = AVPlayerItem(URL: url!)
+            playerItem = AVPlayerItem(url: url!)
             player = AVPlayer(playerItem: playerItem)
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             try AVAudioSession.sharedInstance().setActive(true)
@@ -46,7 +46,7 @@ class baseViewController: UIViewController {
         player.volume = volumeValue
     }
     
-    func changeSong(isNext:Bool){
+    func changeSong(_ isNext:Bool){
         if playerMode == "shuffe"{
             for i in 0..<songArrShuffed.count{
                 if songArrShuffed[i] == songSelected{

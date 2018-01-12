@@ -25,12 +25,12 @@ class OfflineViewController: handleRowActions{
         super.viewDidLoad()
         searchBar.delegate = self
         //Set Done button in keyboard
-        searchBar.returnKeyType = UIReturnKeyType.Done
+        searchBar.returnKeyType = UIReturnKeyType.done
         //Set Done button always enable
         searchBar.enablesReturnKeyAutomatically = false
         //Hide border of UIsearchBar
         searchBar.backgroundImage = UIImage()
-        searchBar.tintColor = UIColor.whiteColor()
+        searchBar.tintColor = UIColor.white
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -45,47 +45,47 @@ class OfflineViewController: handleRowActions{
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         songArrOffline = []
         //Search all .mp3 files and save info to array
-        let songDownloadedDicretory = (NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String).stringByAppendingString("/SongDownloaded")
+        let songDownloadedDicretory = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String) + "/SongDownloaded"
         var items:[String] = []
         do{
-            items = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(songDownloadedDicretory)
+            items = try FileManager.default.contentsOfDirectory(atPath: songDownloadedDicretory)
         }catch{
             return
         }
-        let appDe:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDe:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context:NSManagedObjectContext = appDe.managedObjectContext
-        let request = NSFetchRequest(entityName: "SongData")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SongData")
         do{
-            let results = try context.executeFetchRequest(request)
+            let results = try context.fetch(request)
             for item in items {
                 if item.hasSuffix("mp3"){
                     var song:Song = Song()
                     for re in results{
-                        if let streamURL:String = re.valueForKey("streamURL") as? String{
-                            if streamURL == item.stringByReplacingOccurrencesOfString(".mp3", withString: ""){
-                                if let title:String = re.valueForKey("title") as? String{
+                        if let streamURL:String = (re as AnyObject).value(forKey: "streamURL") as? String{
+                            if streamURL == item.replacingOccurrences(of: ".mp3", with: ""){
+                                if let title:String = (re as AnyObject).value(forKey: "title") as? String{
                                     song.title = title
                                 }
-                                if let artist:String = re.valueForKey("artist") as? String{
+                                if let artist:String = (re as AnyObject).value(forKey: "artist") as? String{
                                     song.artist = artist
                                 }
-                                if let host:String = re.valueForKey("host") as? String{
+                                if let host:String = (re as AnyObject).value(forKey: "host") as? String{
                                     song.host = host
                                 }
-                                if let quality:String = re.valueForKey("quality") as? String{
+                                if let quality:String = (re as AnyObject).value(forKey: "quality") as? String{
                                     song.quality = quality
                                 }
-                                if let sourceURL:String = re.valueForKey("sourceURL") as? String{
+                                if let sourceURL:String = (re as AnyObject).value(forKey: "sourceURL") as? String{
                                     song.sourceURL = sourceURL
                                 }
-                                if let avatarURL:String = re.valueForKey("avatarURL") as? String{
+                                if let avatarURL:String = (re as AnyObject).value(forKey: "avatarURL") as? String{
                                     song.avatarURL = avatarURL
                                 }
-                                if let lyrics:String = re.valueForKey("lyrics") as? String{
+                                if let lyrics:String = (re as AnyObject).value(forKey: "lyrics") as? String{
                                     song.lyricsURL = lyrics
                                 }
                                 song.streamURL = streamURL
@@ -95,11 +95,11 @@ class OfflineViewController: handleRowActions{
                         }
                     }
                     if song.streamURL == "" {
-                        song.streamURL = item.stringByReplacingOccurrencesOfString(".mp3", withString: "")
+                        song.streamURL = item.replacingOccurrences(of: ".mp3", with: "")
                         //Take title, artist default of file
-                        let path = NSBundle.pathForResource(song.streamURL, ofType: "mp3", inDirectory: songDownloadedDicretory)
-                        let url:NSURL = NSURL(fileURLWithPath: path!)
-                        let playerItem = AVPlayerItem(URL: url)
+                        let path = Bundle.path(forResource: song.streamURL, ofType: "mp3", inDirectory: songDownloadedDicretory)
+                        let url:URL = URL(fileURLWithPath: path!)
+                        let playerItem = AVPlayerItem(url: url)
                         let metadataList = playerItem.asset.commonMetadata
                         for item in metadataList {
                             if let stringValue = item.value as? String {
@@ -122,19 +122,19 @@ class OfflineViewController: handleRowActions{
                 }
             }
         }catch{
-            self.view.makeToast("Lỗi khi load dữ liệu, bạn vui lòng refresh lại tab", duration: 1, position: .Center)
+            self.view.makeToast("Lỗi khi load dữ liệu, bạn vui lòng refresh lại tab", duration: TimeInterval(1), position: .Center)
         }
-        songArrOffline = songArrOffline.reverse()
+        songArrOffline = songArrOffline.reversed()
         if songArrOffline.count == 0{
-            viewMess.hidden = false
+            viewMess.isHidden = false
             lblMess.text = "Thiết bị của bạn vẫn chưa download bài hát nào!"
         }else{
-            viewMess.hidden = true
+            viewMess.isHidden = true
             tableView.reloadData()
         }
     }
     //---------Bar button item-----------
-    @IBAction func barButtonSort(sender: AnyObject) {
+    @IBAction func barButtonSort(_ sender: AnyObject) {
         let appearance = SCLAlertView.SCLAppearance(
             kTitleTop: 30,
             kTitleHeight: 50,
@@ -145,12 +145,12 @@ class OfflineViewController: handleRowActions{
         let alert = SCLAlertView(appearance: appearance)
         
         alert.addButton("Tên bài hát A -> Z", action: {
-            self.songArrSorted = songArrOffline.sort { $0.title < $1.title }
+            self.songArrSorted = songArrOffline.sorted { $0.title < $1.title }
             self.sortActive = true
             self.tableView.reloadData()
         })
         alert.addButton("Tên bài hát Z -> A", action: {
-            self.songArrSorted = songArrOffline.sort { $0.title > $1.title }
+            self.songArrSorted = songArrOffline.sorted { $0.title > $1.title }
             self.sortActive = true
             self.tableView.reloadData()
         })
@@ -159,7 +159,7 @@ class OfflineViewController: handleRowActions{
             self.tableView.reloadData()
         })
         alert.addButton("Thời gian cũ -> mới", action: {
-            self.songArrSorted = songArrOffline.reverse()
+            self.songArrSorted = songArrOffline.reversed()
             self.sortActive = true
             self.tableView.reloadData()
         })
@@ -171,7 +171,7 @@ class OfflineViewController: handleRowActions{
             colorStyle: 8094972,
             colorTextButton: 16777215,
             circleIconImage: nil,
-            animationStyle: SCLAnimationStyle.TopToBottom
+            animationStyle: SCLAnimationStyle.topToBottom
         )
     }
 }

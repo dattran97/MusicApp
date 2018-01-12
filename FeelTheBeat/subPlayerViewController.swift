@@ -19,76 +19,76 @@ class subPlayerViewController: baseViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        bg.setImage(UIImage(named: "purpleBackground"), forState: UIControlState.Normal)
+        bg.setImage(UIImage(named: "purpleBackground"), for: UIControlState())
     }
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if songArr.count > 0{
             if let _:AVPlayer = player{
                 reloadData()
             }else{
                 setSong(songSelected)
                 reloadData()
-                btnPlay.setImage(UIImage(named:"play"), forState: .Normal)
+                btnPlay.setImage(UIImage(named:"play"), for: UIControlState())
             }
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subPlayerViewController.reloadSubPlayer(_:)), name: "reloadSubPlayer", object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(PlayerViewController.self, name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+        NotificationCenter.default.addObserver(self, selector: #selector(subPlayerViewController.reloadSubPlayer(_:)), name: NSNotification.Name(rawValue: "reloadSubPlayer"), object: nil)
+        NotificationCenter.default.removeObserver(PlayerViewController.self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
     }
 
     func playerDidFinishPlaying() {
         changeSong(true)
         reloadData()
     }
-    func reloadSubPlayer(notification: NSNotification){
+    func reloadSubPlayer(_ notification: Notification){
         reloadData()
     }
 
 //-----------------------------Button action fuction--------------------------------------
-    @IBAction func btnPlay(sender: AnyObject) {
+    @IBAction func btnPlay(_ sender: AnyObject) {
         if let player:AVPlayer = player{
             if player.rate == 1.0 {
                 player.pause()
-                btnPlay.setImage(UIImage(named:"play"), forState: .Normal)
-                MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 0]
+                btnPlay.setImage(UIImage(named:"play"), for: UIControlState())
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 0]
             }else{
                 player.play()
-                btnPlay.setImage(UIImage(named:"pause"), forState: .Normal)
-                MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
+                btnPlay.setImage(UIImage(named:"pause"), for: UIControlState())
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
             }
         }
     }
-    @IBAction func btnNext(sender: AnyObject) {
+    @IBAction func btnNext(_ sender: AnyObject) {
         if let _:AVPlayer = player{
             changeSong(true)
             reloadData()
         }
     }
-    @IBAction func btnPrev(sender: AnyObject) {
+    @IBAction func btnPrev(_ sender: AnyObject) {
         if let _:AVPlayer = player{
             changeSong(false)
             reloadData()
         }
     }
-    @IBAction func bg(sender: AnyObject) {
+    @IBAction func bg(_ sender: AnyObject) {
         if songArr.count > 0{
-            let vc = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerView") as! PlayerViewController
-            self.presentViewController(vc, animated: true, completion: nil)
+            let vc = self.storyboard!.instantiateViewController(withIdentifier: "PlayerView") as! PlayerViewController
+            self.present(vc, animated: true, completion: nil)
         }
     }
     
     func reloadData(){
         if player.rate == 1.0 {
-            btnPlay.setImage(UIImage(named:"pause"), forState: .Normal)
+            btnPlay.setImage(UIImage(named:"pause"), for: UIControlState())
         }else{
-            btnPlay.setImage(UIImage(named: "play"), forState: .Normal)
+            btnPlay.setImage(UIImage(named: "play"), for: UIControlState())
         }
         
         lblSongTitle.text = songArr[songSelected].title
         lblSongArtist.text = songArr[songSelected].artist
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subPlayerViewController.playerDidFinishPlaying), name: AVPlayerItemDidPlayToEndTimeNotification, object: playerItem)
+        NotificationCenter.default.addObserver(self, selector: #selector(subPlayerViewController.playerDidFinishPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
         
-        MPNowPlayingInfoCenter.defaultCenter().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = [MPMediaItemPropertyArtist : songArr[songSelected].artist,  MPMediaItemPropertyTitle : songArr[songSelected].title, MPMediaItemPropertyPlaybackDuration : Float(CMTimeGetSeconds(playerItem.asset.duration)), MPNowPlayingInfoPropertyElapsedPlaybackTime : CMTimeGetSeconds(player.currentTime()), MPMediaItemPropertyRating : 1]
     }
 }
 

@@ -15,13 +15,13 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //Put tabbar into top of view
-        tabBarCustom.frame = CGRectMake(0, UIApplication.sharedApplication().statusBarFrame.size.height, tabBarCustom.frame.size.width, tabBarCustom.frame.size.height)
+        tabBarCustom.frame = CGRect(x: 0, y: UIApplication.shared.statusBarFrame.size.height, width: tabBarCustom.frame.size.width, height: tabBarCustom.frame.size.height)
         //Set tint color
         UITabBar.appearance().tintColor = UIColor(red:0.48, green:0.52, blue:0.99, alpha:1.0)
     }
 
-    override func viewWillAppear(animated: Bool) {
-        UIApplication.sharedApplication().beginReceivingRemoteControlEvents()
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.beginReceivingRemoteControlEvents()
         self.becomeFirstResponder()
     }
 }

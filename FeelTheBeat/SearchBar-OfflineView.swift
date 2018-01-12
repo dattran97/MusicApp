@@ -10,25 +10,25 @@ import UIKit
 
 //-------------------------------Custom Search Bar---------------------------------------
 extension OfflineViewController:UISearchBarDelegate{
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if songArrFiltered.count == 0{
             searchBarActive = false
         }
         view.endEditing(true)
     }
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBarActive = true
         searchBar.becomeFirstResponder()
         songArrFiltered = songArrOffline.filter({ (song:Song) -> Bool in
-            return song.title.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch) != nil
+            return song.title.range(of: searchText, options: NSString.CompareOptions.caseInsensitive) != nil
         })
         if searchText == "" || searchBarActive == false{
             searchBarActive = false
         }
         tableView.reloadData()
         //Scroll to top after load a new result
-        if tableView.numberOfRowsInSection(0) > 0{
-            self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
+        if tableView.numberOfRows(inSection: 0) > 0{
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
     }
 }

@@ -32,23 +32,23 @@ extension profileViewController:UIImagePickerControllerDelegate, UINavigationCon
         var country:String!
         var avatar:String!
         
-        guard let password = txtFieldPassword.text where password.isEmpty == false else{
+        guard let password = txtFieldPassword.text, password.isEmpty == false else{
             txtErrorMess.text = "Hãy nhập mật khẩu xác nhận"
-            errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .LeftToRight)
+            errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .leftToRight)
             return
         }
         
         if txtFieldUsername.text?.isEmpty == true {
             txtErrorMess.text = "Không thể bỏ trống khung Tên của bạn"
-            errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .LeftToRight)
+            errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .leftToRight)
             return
         }
         if txtFieldYearOfBirth.text?.isEmpty == false{
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd/MM/yyyy"
-            if dateFormatter.dateFromString(txtFieldYearOfBirth.text!) == nil{
+            if dateFormatter.date(from: txtFieldYearOfBirth.text!) == nil{
                 txtErrorMess.text = "Định dạng ngày không phù hợp"
-                errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text! + " (Định dạng phù hợp: dd/mm/yyyy)", closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .LeftToRight)
+                errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text! + " (Định dạng phù hợp: dd/mm/yyyy)", closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .leftToRight)
                 return
             }
             birthday = txtFieldYearOfBirth.text
@@ -57,78 +57,78 @@ extension profileViewController:UIImagePickerControllerDelegate, UINavigationCon
         }
     
         //Check password
-        waitingAlert.showWait("Chờ xíu...", subTitle: "", closeButtonTitle: "", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .LeftToRight)
+        waitingAlert.showWait("Chờ xíu...", subTitle: "", closeButtonTitle: "", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .leftToRight)
         
-        let user = FIRAuth.auth()?.currentUser
-        let credential: FIRAuthCredential = FIREmailPasswordAuthProvider.credentialWithEmail(userInfo.email, password: password)
+        let user = Auth.auth().currentUser
+        let credential: AuthCredential = FIREmailPasswordAuthProviderID.credentialWithEmail(userInfo.email, password: password)
         // Prompt the user to re-provide their sign-in credentials
         
-        user?.reauthenticateWithCredential(credential) { error in
+        user?.reauthenticate(with: credential) { error in
             if error != nil {
-                if let errorCode = FIRAuthErrorCode(rawValue: (error?.code)!){
+                if let errorCode = AuthErrorCode(rawValue: (error?._code)!){
                     switch (errorCode){
-                    case .ErrorCodeWrongPassword:
+                    case .wrongPassword:
                         self.txtErrorMess.text = "Mật khẩu không đúng"
                     default:
                         self.txtErrorMess.text = "Đã có lỗi xảy ra, liên hệ BQT để được trợ giúp"
                     }
                     waitingAlert.hideView()
-                    errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .LeftToRight)
+                    errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .leftToRight)
                     return
                 }
             }
             if self.isChangePassword{
-                guard let newPassword = self.txtFieldNewPassword.text where newPassword.isEmpty == false else{
+                guard let newPassword = self.txtFieldNewPassword.text, newPassword.isEmpty == false else{
                     self.txtErrorMess.text = "Hãy nhập mật khẩu mới"
                     waitingAlert.hideView()
-                    errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .LeftToRight)
+                    errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .leftToRight)
                     return
                 }
-                user?.updatePassword(newPassword, completion: { (error) in
+                user?.updatePassword(to: newPassword, completion: { (error) in
                     if error != nil {
                         self.txtErrorMess.text = "Mật khẩu mới không phù hợp"
                         waitingAlert.hideView()
-                        errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .LeftToRight)
+                        errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .leftToRight)
                         return
                     }
                 })
             }
             
-            let group = dispatch_group_create()
-            dispatch_group_enter(group)
+            let group = DispatchGroup()
+            group.enter()
             if self.isChangeAvatar{
                 //Upload avatar to Storage
-                let storageRef = FIRStorage.storage().reference().child("UserAvatar").child("\(userInfo.uid).png")
+                let storageRef = Storage.storage().reference().child("UserAvatar").child("\(userInfo.uid).png")
                 //let uploadData = UIImagePNGRepresentation(self.imgLogo.image!)
-                if let imageData = self.imgLogo.image, uploadData = UIImageJPEGRepresentation(imageData, 0.1){
+                if let imageData = self.imgLogo.image, let uploadData = UIImageJPEGRepresentation(imageData, 0.1){
                     storageRef.putData(uploadData, metadata: nil, completion: { (metaData, error) in
                         if error != nil{
                             self.txtErrorMess.text = "Không thể tải ảnh đại diện lên database"
                             waitingAlert.hideView()
-                            errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .LeftToRight)
+                            errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .leftToRight)
                             return
                         }
                         if let url = metaData?.downloadURL()?.absoluteString{
                             avatar = url
-                            dispatch_group_leave(group)
+                            group.leave()
                         }
                     })
                 }
             }else{
                 avatar = userInfo.avatarURL
-                dispatch_group_leave(group)
+                group.leave()
             }
-            dispatch_group_notify(group, dispatch_get_main_queue()) {
+            dispatch_group_notify(group, DispatchQueue.main) {
                 country = (self.txtFieldCountry.text != nil) ? self.txtFieldCountry.text : ""
 
-                let value:[String:AnyObject] = ["email":self.txtFieldEmail.text!, "name":self.txtFieldUsername.text!, "birthday": birthday, "country": country, "avatar":avatar]
+                let value:[String:AnyObject] = ["email":self.txtFieldEmail.text! as AnyObject, "name":self.txtFieldUsername.text! as AnyObject, "birthday": birthday as AnyObject, "country": country as AnyObject, "avatar":avatar as AnyObject]
                 //Update user info
-                let ref = FIRDatabase.database().reference()
+                let ref = Database.database().reference()
                 ref.child("users").child(userInfo.uid).updateChildValues(value) { (error, ref) in
                     if error != nil{
                         self.txtErrorMess.text = "Không thể cập nhật thông tin user vào database"
                         waitingAlert.hideView()
-                        errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .LeftToRight)
+                        errorAlert.showError("Lỗi", subTitle: self.txtErrorMess.text!, closeButtonTitle: "Đóng", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .leftToRight)
                         return
                     }
                     //Success to add user to database
@@ -141,10 +141,10 @@ extension profileViewController:UIImagePickerControllerDelegate, UINavigationCon
                     )
                     let successAlert = SCLAlertView(appearance: appearance)
                     successAlert.addButton("Về trang chủ", action: {
-                        let homeView = self.storyboard!.instantiateViewControllerWithIdentifier("containerView") as! ContainerViewController
+                        let homeView = self.storyboard!.instantiateViewController(withIdentifier: "containerView") as! ContainerViewController
                         self.revealViewController().pushFrontViewController(homeView, animated: true)
                     })
-                    successAlert.showSuccess("Thành công", subTitle: "Đã cập nhật thông tin thành công", closeButtonTitle: "", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .LeftToRight)
+                    successAlert.showSuccess("Thành công", subTitle: "Đã cập nhật thông tin thành công", closeButtonTitle: "", duration: 0, colorStyle: 0, colorTextButton: 16777215, circleIconImage: nil, animationStyle: .leftToRight)
                 }
                 
             }
@@ -155,15 +155,15 @@ extension profileViewController:UIImagePickerControllerDelegate, UINavigationCon
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.allowsEditing = true
-        presentViewController(picker, animated: true, completion: nil)
+        present(picker, animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         //Onclick cancel button
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         var selectedImage:UIImage?
         if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage{
             selectedImage = editedImage
@@ -176,6 +176,6 @@ extension profileViewController:UIImagePickerControllerDelegate, UINavigationCon
             imgLogo.image = selectedImage
         }
         isChangeAvatar = true
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }

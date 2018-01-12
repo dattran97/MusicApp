@@ -13,22 +13,22 @@ class ContainerViewController: firebaseSupportFunctions {
     @IBOutlet weak var mainContainer: UIView!
     @IBOutlet weak var subPlayerContainer: UIView!
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         initUserInfo()
         if player == nil{
-            subPlayerContainer.hidden = true
+            subPlayerContainer.isHidden = true
         }else{
-            subPlayerContainer.hidden = false
+            subPlayerContainer.isHidden = false
         }
         subPlayerContainer.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(ContainerViewController.dragSubPlayerView)))
     }
-    @IBAction func dragSubPlayerView(recognizer: UIPanGestureRecognizer) {
-        let point = recognizer.locationInView(self.view);
-        if(recognizer.state == .Ended){
+    @IBAction func dragSubPlayerView(_ recognizer: UIPanGestureRecognizer) {
+        let point = recognizer.location(in: self.view);
+        if(recognizer.state == .ended){
             if point.y < self.view.frame.height/2{
-                let vc = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerView") as! PlayerViewController
-                self.presentViewController(vc, animated: true, completion: nil)
+                let vc = self.storyboard!.instantiateViewController(withIdentifier: "PlayerView") as! PlayerViewController
+                self.present(vc, animated: true, completion: nil)
             }
         }
     }

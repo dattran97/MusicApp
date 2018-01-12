@@ -9,47 +9,47 @@
 import UIKit
 
 //-------------------------------------Shuffle array extension--------------------------------------
-extension CollectionType {
+extension Collection {
     /// Return a copy of `self` with its elements shuffled
-    func shuffle() -> [Generator.Element] {
+    func shuffle() -> [Iterator.Element] {
         var list = Array(self)
         list.shuffleInPlace()
         return list
     }
 }
 
-extension MutableCollectionType where Index == Int {
+extension MutableCollection where Index == Int {
     /// Shuffle the elements of `self` in-place.
     mutating func shuffleInPlace() {
         // empty and single-element collections don't shuffle
         if count < 2 { return }
         
-        for i in 0..<count - 1 {
-            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+        for i in 0..<Int(count) - 1 {
+            let j = Int(arc4random_uniform(UInt32(Int(count) - i))) + i
             guard i != j else { continue }
-            swap(&self[i], &self[j])
+            self.swapAt(i, j)
         }
     }
 }
 //------------------------UIColor with both image and color extension--------------------------------------
 extension UIColor {
-    static func imageWithBackgroundColor(image: UIImage, bgColor: UIColor) -> UIColor {
+    static func imageWithBackgroundColor(_ image: UIImage, bgColor: UIColor) -> UIColor {
         let size = CGSize(width: 70, height: 70)
         
         UIGraphicsBeginImageContextWithOptions(size, true, 0)
         let context = UIGraphicsGetCurrentContext()
         let rectangle = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         
-        CGContextSetFillColorWithColor(context, bgColor.CGColor)
-        CGContextAddRect(context, rectangle)
-        CGContextDrawPath(context, .Fill)
+        context?.setFillColor(bgColor.cgColor)
+        context?.addRect(rectangle)
+        context?.drawPath(using: .fill)
         
-        CGContextDrawImage(context, rectangle, image.CGImage)
+        context?.draw(image.cgImage!, in: rectangle)
         
         let img = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return UIColor(patternImage: img)
+        return UIColor(patternImage: img!)
     }
 }
 //------------------------Return visible viewController-----------------------------
@@ -58,7 +58,7 @@ public extension UIWindow {
         return UIWindow.getVisibleViewControllerFrom(self.rootViewController)
     }
     
-    public static func getVisibleViewControllerFrom(vc: UIViewController?) -> UIViewController? {
+    public static func getVisibleViewControllerFrom(_ vc: UIViewController?) -> UIViewController? {
         if let nc = vc as? UINavigationController {
             return UIWindow.getVisibleViewControllerFrom(nc.visibleViewController)
         } else if let tc = vc as? UITabBarController {
@@ -74,33 +74,33 @@ public extension UIWindow {
 }
 //----------------------------Ghost button-------------------------------
 extension UIButton{
-    func ghostButton(cornerRadius:CGFloat, borderWidth:CGFloat, borderColor:UIColor){
+    func ghostButton(_ cornerRadius:CGFloat, borderWidth:CGFloat, borderColor:UIColor){
         //self.layer.u
         self.layer.cornerRadius = cornerRadius
         self.layer.borderWidth = borderWidth
-        self.layer.borderColor = borderColor.CGColor
+        self.layer.borderColor = borderColor.cgColor
         self.tintColor = borderColor
         //self.layer.underl
     }
 }
 //-------------------------Custom UITextfield-----------------------------
 extension UITextField{
-    func customTextField(borderWidth:CGFloat, borderColor:UIColor, placeholderText:String, placeholderColor:UIColor, paddingLeft:CGFloat){
+    func customTextField(_ borderWidth:CGFloat, borderColor:UIColor, placeholderText:String, placeholderColor:UIColor, paddingLeft:CGFloat){
         self.layer.borderWidth = borderWidth
-        self.layer.borderColor = borderColor.CGColor
+        self.layer.borderColor = borderColor.cgColor
         self.attributedPlaceholder = NSAttributedString(string: placeholderText, attributes: [NSForegroundColorAttributeName: placeholderColor])
-        let paddingView = UIView(frame: CGRectMake(0, 0, paddingLeft, self.frame.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: paddingLeft, height: self.frame.height))
         self.leftView = paddingView
-        self.leftViewMode = UITextFieldViewMode.Always
+        self.leftViewMode = UITextFieldViewMode.always
     }
 }
 //------------------------Encode HTML String-----------------------------
 extension String {
-    init(htmlEncodedString: String) {
-        let encodedData = htmlEncodedString.dataUsingEncoding(NSUTF8StringEncoding)!
+    init?(htmlEncodedString: String) {
+        let encodedData = htmlEncodedString.data(using: String.Encoding.utf8)!
         let attributedOptions : [String: AnyObject] = [
-            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-            NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
+            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType as AnyObject,
+            NSCharacterEncodingDocumentAttribute: String.Encoding.utf8 as AnyObject
         ]
         let attributedString = try! NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
         self.init(attributedString.string)

@@ -15,7 +15,7 @@ struct User{
     var lastName:String!
     var email:String!
     var country:String!
-    var birthday:NSDate!
+    var birthday:Date!
     var avatarURL:String!
     var password:String!
     

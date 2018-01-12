@@ -24,7 +24,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     var isSignIn:Bool = true
      
     func changeDisplay(){
-        UIView.animateWithDuration(1, animations: {
+        UIView.animate(withDuration: 1, animations: {
             self.txtErrorMess.alpha = 0
             self.txtFieldEmail.alpha = 0
             self.txtFieldPassword.alpha = 0
@@ -34,26 +34,26 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             self.btnForgotPassword.alpha = 0
             self.imgLogo.alpha = 0
             self.btnMenu.alpha = 0
-        }) { (animate) in
+        }, completion: { (animate) in
             if self.isSignIn == false{
                 self.isSignIn = true
-                self.txtFieldUsername.hidden = true
-                self.newTopConstraint.active = false
-                self.topConstraint.active = true
+                self.txtFieldUsername.isHidden = true
+                self.newTopConstraint.isActive = false
+                self.topConstraint.isActive = true
                 self.imgLogo.image = UIImage(named: "avatar1x1")
-                self.imgLogo.userInteractionEnabled = false
+                self.imgLogo.isUserInteractionEnabled = false
             }else{
                 self.isSignIn = false
-                self.txtFieldUsername.hidden = false
-                self.topConstraint.active = false
-                self.newTopConstraint.active = true
+                self.txtFieldUsername.isHidden = false
+                self.topConstraint.isActive = false
+                self.newTopConstraint.isActive = true
                 //Tap imageView to change avatar
                 self.imgLogo.image = UIImage(named: "defaultUserAvatar")
                 self.txtErrorMess.text = "Chạm vào logo trên để thay đổi avatar"
-                self.imgLogo.userInteractionEnabled = true
+                self.imgLogo.isUserInteractionEnabled = true
             }
             self.view.layoutIfNeeded()
-            UIView.animateWithDuration(1, animations: {
+            UIView.animate(withDuration: 1, animations: {
                 self.txtErrorMess.alpha = 1
                 self.txtFieldEmail.alpha = 1
                 self.txtFieldPassword.alpha = 1
@@ -64,9 +64,9 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
                 self.imgLogo.alpha = 1
                 self.btnMenu.alpha = 1
             })
-        }
+        }) 
     }
-    @IBAction func btnSignIn(sender: AnyObject) {
+    @IBAction func btnSignIn(_ sender: AnyObject) {
         txtErrorMess.text = ""
         if isSignIn == false{
             changeDisplay()
@@ -74,7 +74,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             handleLogIn()
         }
     }
-    @IBAction func btnSignUp(sender: AnyObject) {
+    @IBAction func btnSignUp(_ sender: AnyObject) {
         txtErrorMess.text = ""
         if isSignIn{
             changeDisplay()
@@ -82,7 +82,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             handleRegister()
         }
     }
-    @IBAction func btnForgotPassword(sender: AnyObject) {
+    @IBAction func btnForgotPassword(_ sender: AnyObject) {
         handleForgotPassword()
     }
     override func viewDidLoad() {
@@ -90,21 +90,21 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         self.view.addSubview(btnSignIn)
         btnSignIn.translatesAutoresizingMaskIntoConstraints = false
         //Add Top Constraint
-        topConstraint = btnSignIn.topAnchor.constraintEqualToAnchor(txtFieldPassword.bottomAnchor, constant: 30)
-        newTopConstraint = btnSignIn.topAnchor.constraintEqualToAnchor(txtFieldPassword.bottomAnchor, constant: 30 + 20 + txtFieldPassword.frame.height)
-        topConstraint.active = true
+        topConstraint = btnSignIn.topAnchor.constraint(equalTo: txtFieldPassword.bottomAnchor, constant: 30)
+        newTopConstraint = btnSignIn.topAnchor.constraint(equalTo: txtFieldPassword.bottomAnchor, constant: 30 + 20 + txtFieldPassword.frame.height)
+        topConstraint.isActive = true
         self.view.layoutIfNeeded()
         //Animation
         let viewBoxObj:[AnyObject] = [txtFieldEmail, txtFieldPassword, txtFieldUsername, btnSignIn, btnSignUp, btnForgotPassword]
         var index = 0
         for obj in viewBoxObj{
             if let obj:UIButton = obj as? UIButton{
-                UIView.animateWithDuration(0.5, delay: 0.05*(Double)(index), usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: {
+                UIView.animate(withDuration: 0.5, delay: 0.05*(Double)(index), usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: {
                     obj.bounds.origin.x += self.view.bounds.size.width
                     }, completion: nil)
             }else{
                 if let obj:UITextField = obj as? UITextField{
-                    UIView.animateWithDuration(0.5, delay: 0.05*(Double)(index), usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .CurveEaseOut, animations: {
+                    UIView.animate(withDuration: 0.5, delay: 0.05*(Double)(index), usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseOut, animations: {
                         obj.bounds.origin.x += self.view.bounds.size.width
                         }, completion: nil)
                 }
@@ -112,61 +112,61 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
             index += 1
         }
         //Customise button
-        btnSignIn.ghostButton(5, borderWidth: 1, borderColor: UIColor.whiteColor())
-        btnSignUp.ghostButton(5, borderWidth: 1, borderColor: UIColor.whiteColor())
+        btnSignIn.ghostButton(5, borderWidth: 1, borderColor: UIColor.white)
+        btnSignUp.ghostButton(5, borderWidth: 1, borderColor: UIColor.white)
         //Customise text field
-        txtFieldUsername.customTextField(1, borderColor: UIColor.whiteColor(), placeholderText: "Tên của bạn", placeholderColor: UIColor.lightGrayColor(), paddingLeft: 10)
-        txtFieldPassword.customTextField(1, borderColor: UIColor.whiteColor(), placeholderText: "Mật khẩu", placeholderColor: UIColor.lightGrayColor(), paddingLeft: 10)
-        txtFieldEmail.customTextField(1, borderColor: UIColor.whiteColor(), placeholderText: "Email", placeholderColor: UIColor.lightGrayColor(), paddingLeft: 10)
+        txtFieldUsername.customTextField(1, borderColor: UIColor.white, placeholderText: "Tên của bạn", placeholderColor: UIColor.lightGray, paddingLeft: 10)
+        txtFieldPassword.customTextField(1, borderColor: UIColor.white, placeholderText: "Mật khẩu", placeholderColor: UIColor.lightGray, paddingLeft: 10)
+        txtFieldEmail.customTextField(1, borderColor: UIColor.white, placeholderText: "Email", placeholderColor: UIColor.lightGray, paddingLeft: 10)
         //Tap gesture
         imgLogo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(changeAvatar)))
-        imgLogo.userInteractionEnabled = false
+        imgLogo.isUserInteractionEnabled = false
         //Side bar menu
         let origImage = UIImage(named: "menuOn");
-        let tintedImage = origImage?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        btnMenu.setImage(tintedImage, forState: .Normal)
-        btnMenu.tintColor = UIColor.whiteColor()
+        let tintedImage = origImage?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        btnMenu.setImage(tintedImage, for: UIControlState())
+        btnMenu.tintColor = UIColor.white
         if revealViewController() != nil {
-            btnMenu.addTarget(revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            btnMenu.addTarget(revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)), for: UIControlEvents.touchUpInside)
             self.view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         }
         //Customise keyboard, UITextfield
         txtFieldEmail.delegate = self
         txtFieldPassword.delegate = self
         txtFieldUsername.delegate = self
-        txtFieldEmail.returnKeyType = UIReturnKeyType.Done
+        txtFieldEmail.returnKeyType = UIReturnKeyType.done
         txtFieldEmail.enablesReturnKeyAutomatically = false
-        txtFieldPassword.returnKeyType = UIReturnKeyType.Done
+        txtFieldPassword.returnKeyType = UIReturnKeyType.done
         txtFieldPassword.enablesReturnKeyAutomatically = false
-        txtFieldUsername.returnKeyType = UIReturnKeyType.Done
+        txtFieldUsername.returnKeyType = UIReturnKeyType.done
         txtFieldUsername.enablesReturnKeyAutomatically = false
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SignInViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(_:)), name:NSNotification.Name.UIKeyboardWillShow, object: nil);
+        NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil);
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         //Log out
         handleLogOut()
     }
     
-    func keyboardWillShow(sender: NSNotification) {
+    func keyboardWillShow(_ sender: Notification) {
         print(self.btnSignIn.frame.origin.y)
         if self.btnSignIn.frame.origin.y > self.view.frame.height - 150{
             self.view.frame.origin.y = -150
         }
     }
     
-    func keyboardWillHide(sender: NSNotification) {
+    func keyboardWillHide(_ sender: Notification) {
         self.view.frame.origin.y = 0
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
     }
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
 
 }

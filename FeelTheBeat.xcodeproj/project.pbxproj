@@ -33,7 +33,6 @@
 		4F7E61461CFF2B0100E0D220 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F7E61451CFF2B0100E0D220 /* Assets.xcassets */; };
 		4F7E61491CFF2B0100E0D220 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7E61471CFF2B0100E0D220 /* LaunchScreen.storyboard */; };
 		4FAD5EAA1D2FAB0700CD0A10 /* handleSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAD5EA91D2FAB0700CD0A10 /* handleSignInView.swift */; };
-		4FAD5EAC1D2FFE5F00CD0A10 /* loadImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAD5EAB1D2FFE5F00CD0A10 /* loadImageExtension.swift */; };
 		4FBA78261D453B430054CB59 /* handleRowActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBA78251D453B430054CB59 /* handleRowActions.swift */; };
 		4FD181551D34FBF500A0B1F2 /* TableView-OnlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD181541D34FBF500A0B1F2 /* TableView-OnlineView.swift */; };
 		4FD181581D34FC3600A0B1F2 /* SearchBar-OnlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD181571D34FC3600A0B1F2 /* SearchBar-OnlineView.swift */; };
@@ -73,7 +72,6 @@
 		4F7E61481CFF2B0100E0D220 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F7E614A1CFF2B0100E0D220 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FAD5EA91D2FAB0700CD0A10 /* handleSignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = handleSignInView.swift; sourceTree = "<group>"; };
-		4FAD5EAB1D2FFE5F00CD0A10 /* loadImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loadImageExtension.swift; sourceTree = "<group>"; };
 		4FBA78251D453B430054CB59 /* handleRowActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = handleRowActions.swift; sourceTree = "<group>"; };
 		4FD181541D34FBF500A0B1F2 /* TableView-OnlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TableView-OnlineView.swift"; sourceTree = "<group>"; };
 		4FD181571D34FC3600A0B1F2 /* SearchBar-OnlineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SearchBar-OnlineView.swift"; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 			children = (
 				4F5DC56D1D48ED5500FB4785 /* supportExtensions.swift */,
 				4F2170D91D213BD6005EEA7F /* playerSupportFunctions.swift */,
-				4FAD5EAB1D2FFE5F00CD0A10 /* loadImageExtension.swift */,
 				4F5BF2DB1D43CFAB009FBD35 /* firebaseSupportFunctions.swift */,
 				4F1CB75F1D2EA076009FBBE6 /* User.swift */,
 				4F117D6D1D3164CD003D5071 /* Song.swift */,
@@ -296,7 +293,8 @@
 				TargetAttributes = {
 					4F7E613A1CFF2B0100E0D220 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = XXMV2VZD3G;
+						DevelopmentTeam = Z7Y9X6WKS2;
+						LastSwiftMigration = 0830;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -359,9 +357,28 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-FeelTheBeat/Pods-FeelTheBeat-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -374,13 +391,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FeelTheBeat-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -401,7 +421,6 @@
 				4F02B41B1D22E1910000DACE /* subPlayerViewController.swift in Sources */,
 				4F24DEDA1D2D052E000A72EC /* SignInViewController.swift in Sources */,
 				4F02B4151D2246760000DACE /* TableViewCell.swift in Sources */,
-				4FAD5EAC1D2FFE5F00CD0A10 /* loadImageExtension.swift in Sources */,
 				4F02B4171D2256930000DACE /* TabBarController.swift in Sources */,
 				4F1CB7601D2EA076009FBBE6 /* User.swift in Sources */,
 				4F5829321D3ED94A00D8A8CE /* TableView-slideOutMenu.swift in Sources */,
@@ -536,6 +555,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = Z7Y9X6WKS2;
 				INFOPLIST_FILE = "$(SRCROOT)/FeelTheBeat/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -544,6 +564,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "FeelTheBeat/FeelTheBeat-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -556,6 +577,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = Z7Y9X6WKS2;
 				INFOPLIST_FILE = "$(SRCROOT)/FeelTheBeat/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -563,6 +585,7 @@
 				PRODUCT_NAME = FeelTheBeat;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "FeelTheBeat/FeelTheBeat-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

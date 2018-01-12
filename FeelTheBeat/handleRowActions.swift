@@ -13,25 +13,25 @@ import Toast_Swift
 import CoreData
 
 class handleRowActions: UIViewController {
-    func handleDownloadSong(song:Song){
+    func handleDownloadSong(_ song:Song){
         var songDownloadedName:String!
         var avatarDownloadedName:String!
-        self.view.makeToast("Đang tải về bài hát \(song.title)", duration: 1, position: .Center)
+        self.view.makeToast("Đang tải về bài hát \(song.title)", duration: TimeInterval(1), position: .Center)
         //Create Directory
-        let documentsPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
-        var songPath = documentsPath.URLByAppendingPathComponent("SongDownloaded")
-        var imagePath = documentsPath.URLByAppendingPathComponent("AvatarDownloaded")
-        if !NSFileManager.defaultManager().fileExistsAtPath(songPath.path!){
+        let documentsPath = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
+        var songPath = documentsPath.appendingPathComponent("SongDownloaded")
+        var imagePath = documentsPath.appendingPathComponent("AvatarDownloaded")
+        if !FileManager.default.fileExists(atPath: songPath.path){
             do {
-                try NSFileManager.defaultManager().createDirectoryAtPath(songPath.path!, withIntermediateDirectories: true, attributes: nil)
+                try FileManager.default.createDirectory(atPath: songPath.path, withIntermediateDirectories: true, attributes: nil)
             }catch  {
                 print("Unable to create song directory ")
                 return
             }
         }
         //Handle download with Alamofire
-        Alamofire.download(.GET, song.streamURL, destination: { (temporaryURL, response) in
-            let date = NSDate()
+        Alamofire.download(.get, song.streamURL, destination: { (temporaryURL, response) in
+            let date = Date()
             let myDateString = String(Int64(date.timeIntervalSince1970*1000))
             songDownloadedName = myDateString + "-" + response.suggestedFilename!
             songPath = songPath.URLByAppendingPathComponent(songDownloadedName)
@@ -101,52 +101,52 @@ class handleRowActions: UIViewController {
         }
     }
 
-    func handleAddSongToPlaylist(songSelected:Int){
+    func handleAddSongToPlaylist(_ songSelected:Int){
     
     }
     
-    func handleDeleteSong(downloadURL: String, sourceURL:String) -> Bool{
-        let appDe:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    func handleDeleteSong(_ downloadURL: String, sourceURL:String) -> Bool{
+        let appDe:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let context:NSManagedObjectContext = appDe.managedObjectContext
-        let request = NSFetchRequest(entityName: "SongData")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SongData")
         do{
-            let results = try context.executeFetchRequest(request)
+            let results = try context.fetch(request)
             for re in results{
-                if let source:String = re.valueForKey("sourceURL") as? String where source == sourceURL{
-                    let songDownloadedPath:String = (re.valueForKey("streamURL") as? String)!
+                if let source:String = (re as AnyObject).value(forKey: "sourceURL") as? String, source == sourceURL{
+                    let songDownloadedPath:String = ((re as AnyObject).value(forKey: "streamURL") as? String)!
                     if let _:AVPlayer = player{
                         //Check if player is playing
                         let currentPlayerAsset = player.currentItem?.asset
-                        var url:String = (currentPlayerAsset as! AVURLAsset).URL.absoluteString
-                        url = url.stringByReplacingOccurrencesOfString(".mp3", withString: "")
+                        var url:String = (currentPlayerAsset as! AVURLAsset).url.absoluteString
+                        url = url.replacingOccurrences(of: ".mp3", with: "")
                         if url.hasSuffix("/\(downloadURL)"){
-                            self.view.makeToast("Bài hát đang phát, không thể xóa", duration: 1, position: .Center)
+                            self.view.makeToast("Bài hát đang phát, không thể xóa", duration: TimeInterval(1), position: .Center)
                             return false
                         }
                     }
-                    let documentsPath = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
-                    let downloadPath = documentsPath.URLByAppendingPathComponent("SongDownloaded")
-                    let songPath = downloadPath.URLByAppendingPathComponent(songDownloadedPath+".mp3")
+                    let documentsPath = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
+                    let downloadPath = documentsPath.appendingPathComponent("SongDownloaded")
+                    let songPath = downloadPath.appendingPathComponent(songDownloadedPath+".mp3")
                     do{
-                        try NSFileManager.defaultManager().removeItemAtPath(songPath.path!)
-                        context.deleteObject(re as! NSManagedObject)
+                        try FileManager.default.removeItem(atPath: songPath.path)
+                        context.delete(re as! NSManagedObject)
                         do{
                             try context.save()
-                            self.view.makeToast("Đã xóa thành công", duration: 1, position: .Center)
+                            self.view.makeToast("Đã xóa thành công", duration: TimeInterval(1), position: .Center)
                             return true
                         }catch{
-                            self.view.makeToast("Xảy ra sự cố khi xóa dữ liệu bài hát", duration: 1, position: .Center)
+                            self.view.makeToast("Xảy ra sự cố khi xóa dữ liệu bài hát", duration: TimeInterval(1), position: .Center)
                             return false
                         }
                     }catch{
-                        self.view.makeToast("Xảy ra sự cố khi xóa bài hát", duration: 1, position: .Center)
+                        self.view.makeToast("Xảy ra sự cố khi xóa bài hát", duration: TimeInterval(1), position: .Center)
                         return false
                     }
                 }
             }
             return false
         }catch{
-            self.view.makeToast("Xảy ra sự cố khi xóa dữ liệu bài hát", duration: 1, position: .Center)
+            self.view.makeToast("Xảy ra sự cố khi xóa dữ liệu bài hát", duration: TimeInterval(1), position: .Center)
             return false
         }
     }

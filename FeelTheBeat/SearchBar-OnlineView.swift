@@ -11,34 +11,34 @@ import Alamofire
 import SwiftyJSON
 
 //-------------------------------Custom Search Bar---------------------------------------
-private var requestTask:Request!
+private var requestTask:DataRequest?
 
 extension OnlineViewController:UISearchBarDelegate{
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
     }
 
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBar.becomeFirstResponder()
         showResults(searchText)
     }
     
-    func showResults(searchText: String){
+    func showResults(_ searchText: String){
         if searchText != ""{
             let code:String = "54db3d4b-518f-4f50-aa34-393147a8aa18"
             songArrOnline = []
             requestTask?.cancel()
             //Show activityIndicatorView
-            if loadingView.hidden == true{
-                loadingView.hidden = false
+            if loadingView.isHidden == true{
+                loadingView.isHidden = false
             }
-            let input = searchText.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+            let input = searchText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
             
-            requestTask = Alamofire.request(.GET, "http://j.ginggong.com/jOut.ashx?k=\(input!)&h=\(source[sourceIndex])&code=\(code)")
-            requestTask.responseJSON(completionHandler: { (responseData) in
-                if responseData.result.value != nil{
-                    let json = JSON(responseData.result.value!)
+            requestTask = Alamofire.request("http://j.ginggong.com/jOut.ashx?k=\(input!)&code=\(code)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+            requestTask?.responseJSON { (response:DataResponse<Any>) in
+                if response.result.value != nil{
+                    let json = JSON(response.result.value!)
                     if let results:Array<Dictionary<String,AnyObject>> = json.arrayObject as? Array<Dictionary<String,AnyObject>>{
                         for i in results{
                             let song:Song = Song(dic: i)
@@ -47,22 +47,22 @@ extension OnlineViewController:UISearchBarDelegate{
                             }
                         }
                     }
-                    self.loadingView.hidden = true
+                    self.loadingView.isHidden = true
                     self.tableView.reloadData()
                     if songArrOnline.count != 0{
-                        self.viewMess.hidden = true
+                        self.viewMess.isHidden = true
                     }else{
                         self.lblMess.text = "Rất tiếc, chúng tôi không tìm thấy bài hát mà bạn yêu cầu!"
                         self.imgMess.image = UIImage(named: "sadFace")
-                        self.viewMess.hidden = false
+                        self.viewMess.isHidden = false
                     }
                 }
-            })
+            }
             
         }
         //Scroll to top after load a new result
-        if tableView.numberOfRowsInSection(0) > 0{
-            self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
+        if tableView.numberOfRows(inSection: 0) > 0{
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
     }
 }

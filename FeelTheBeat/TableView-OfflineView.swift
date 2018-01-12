@@ -10,13 +10,13 @@ import UIKit
 
 //-------------------------------Custom TableView---------------------------------------
 extension OfflineViewController:UITableViewDelegate, UITableViewDataSource{
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchBarActive{
             if songArrFiltered.count == 0{
-                viewMess.hidden = false
+                viewMess.isHidden = false
                 lblMess.text = "Rất tiếc, chúng tôi không tìm thấy bài hát mà bạn yêu cầu!"
             }else{
-                viewMess.hidden = true
+                viewMess.isHidden = true
             }
             return songArrFiltered.count
         }else{
@@ -24,32 +24,32 @@ extension OfflineViewController:UITableViewDelegate, UITableViewDataSource{
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! TableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! TableViewCell
         if searchBarActive{
             cell.lblTitle.text = songArrFiltered[indexPath.row].title
             cell.lblArtist.text = songArrFiltered[indexPath.row].artist
             cell.lblSource.text = songArrFiltered[indexPath.row].host
             cell.lblQuality.text = songArrFiltered[indexPath.row].quality
-            cell.imgAvatar.loadImageFromUsingCache(songArrFiltered[indexPath.row].avatarURL)
+            cell.imgAvatar.kf.setImage(with: URL(string: songArrFiltered[indexPath.row].avatarURL))
         }else{
             if sortActive{
                 cell.lblTitle.text = songArrSorted[indexPath.row].title
                 cell.lblArtist.text = songArrSorted[indexPath.row].artist
                 cell.lblSource.text = songArrSorted[indexPath.row].host
                 cell.lblQuality.text = songArrSorted[indexPath.row].quality
-                cell.imgAvatar.loadImageFromUsingCache(songArrSorted[indexPath.row].avatarURL)
+                cell.imgAvatar.kf.setImage(with: URL(string: songArrSorted[indexPath.row].avatarURL))
             }else{
                 cell.lblTitle.text = songArrOffline[indexPath.row].title
                 cell.lblArtist.text = songArrOffline[indexPath.row].artist
                 cell.lblSource.text = songArrOffline[indexPath.row].host
                 cell.lblQuality.text = songArrOffline[indexPath.row].quality
-                cell.imgAvatar.loadImageFromUsingCache(songArrOffline[indexPath.row].avatarURL)
+                cell.imgAvatar.kf.setImage(with: URL(string: songArrOffline[indexPath.row].avatarURL))
             }
         }
         cell.lblQuality.layer.cornerRadius = 10
         cell.lblQuality.layer.borderWidth = 1
-        cell.lblQuality.layer.borderColor = cell.lblTitle.textColor.CGColor
+        cell.lblQuality.layer.borderColor = cell.lblTitle.textColor.cgColor
         cell.lblQuality.textColor = cell.lblTitle.textColor
         cell.lblQuality.clipsToBounds = true
         cell.imgAvatar.layer.cornerRadius = cell.imgAvatar.frame.size.width/2
@@ -58,7 +58,7 @@ extension OfflineViewController:UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if songArrOffline.count > 0{
             if searchBarActive{
                 for i in 0..<songArrOffline.count{
@@ -76,31 +76,31 @@ extension OfflineViewController:UITableViewDelegate, UITableViewDataSource{
                     songArr = songArrOffline
                 }
             }
-            let vc = self.storyboard!.instantiateViewControllerWithIdentifier("PlayerView") as! PlayerViewController
-            self.presentViewController(vc, animated: true, completion: nil)
+            let vc = self.storyboard!.instantiateViewController(withIdentifier: "PlayerView") as! PlayerViewController
+            self.present(vc, animated: true, completion: nil)
         }
         
     }
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 5
     }
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         var footerHeight:CGFloat = 0
         if section == 0 && player != nil{
             footerHeight = self.view.frame.size.height/10
         }
         return footerHeight
     }
-    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
-        view.tintColor = UIColor.whiteColor()
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        view.tintColor = UIColor.white
     }
     
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         //Button "Delete"
-        let deleteButton = UITableViewRowAction(style: .Default, title: "         ", handler: { (action, indexPath) in
+        let deleteButton = UITableViewRowAction(style: .default, title: "         ", handler: { (action, indexPath) in
             //Get song to delete
             var song:Song = Song()
             if self.searchBarActive{
@@ -118,7 +118,7 @@ extension OfflineViewController:UITableViewDelegate, UITableViewDataSource{
                 if songArr.count > 0{
                     for i in 0..<songArr.count {
                         if songArr[i].streamURL == song.streamURL{
-                            songArr.removeAtIndex(i)
+                            songArr.remove(at: i)
                             if i < songSelected{
                                 songSelected -= 1
                             }
@@ -130,32 +130,32 @@ extension OfflineViewController:UITableViewDelegate, UITableViewDataSource{
                 if self.searchBarActive{
                     for i in 0..<songArrOffline.count{
                         if self.songArrFiltered[indexPath.row].streamURL == songArrOffline[i].streamURL{
-                            songArrOffline.removeAtIndex(i)
+                            songArrOffline.remove(at: i)
                             break
                         }
                     }
-                    self.songArrFiltered.removeAtIndex(indexPath.row)
+                    self.songArrFiltered.remove(at: indexPath.row)
                 }else{
                     if self.sortActive{
                         for i in 0..<songArrOffline.count{
                             if self.songArrSorted[indexPath.row].streamURL == songArrOffline[i].streamURL{
-                                songArrOffline.removeAtIndex(i)
+                                songArrOffline.remove(at: i)
                                 break
                             }
                         }
-                        self.songArrSorted.removeAtIndex(indexPath.row)
+                        self.songArrSorted.remove(at: indexPath.row)
                     }else{
-                        songArrOffline.removeAtIndex(indexPath.row)
+                        songArrOffline.remove(at: indexPath.row)
                     }
                 }
                 tableView.reloadData()
             }
         })
         if let img1 = UIImage(named: "rowActionTrash") {
-            deleteButton.backgroundColor = UIColor.imageWithBackgroundColor(img1, bgColor: UIColor.redColor())
+            deleteButton.backgroundColor = UIColor.imageWithBackgroundColor(img1, bgColor: UIColor.red)
         }
         //Button "Add to playlist"
-        let addPlaylistButton = UITableViewRowAction(style: .Default, title: "         ", handler: { (action, indexPath) in
+        let addPlaylistButton = UITableViewRowAction(style: .default, title: "         ", handler: { (action, indexPath) in
             print("Add to Playlist")
         })
         if let img2 = UIImage(named: "rowActionAddPlaylist") {

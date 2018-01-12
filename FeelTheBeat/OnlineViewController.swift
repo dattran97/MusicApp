@@ -22,7 +22,7 @@ class OnlineViewController: handleRowActions{
     var playListSorted:[String] = []
     
     var loadingView: UIView = UIView()
-    var activityIndicatorView:UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+    var activityIndicatorView:UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     ///ID of source
     var sourceIndex:Int = 0
     let source:[String] = ["nhaccuatui.com", "mp3.zing.vn", "chiasenhac.com"]
@@ -31,12 +31,12 @@ class OnlineViewController: handleRowActions{
         super.viewDidLoad()
         searchBar.delegate = self
         //Set Done button in keyboard
-        searchBar.returnKeyType = UIReturnKeyType.Done
+        searchBar.returnKeyType = UIReturnKeyType.done
         //Set Done button always enable
         searchBar.enablesReturnKeyAutomatically = false
         //Hide border of UIsearchBar
         searchBar.backgroundImage = UIImage()
-        searchBar.tintColor = UIColor.whiteColor()
+        searchBar.tintColor = UIColor.white
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -50,29 +50,29 @@ class OnlineViewController: handleRowActions{
             menuBarButton.action = #selector(SWRevealViewController.revealToggle(_:))
             self.view.addGestureRecognizer(revealViewController().panGestureRecognizer())
         }
-        viewMess.hidden = false
+        viewMess.isHidden = false
         lblMess.text = "Hãy nhập tên bài hát cần tìm vào thanh search ở trên"
         
         //Custom ActivityIndicatorView
-        loadingView.frame = CGRectMake(0, 0, 80, 80)
+        loadingView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         loadingView.center = view.center
-        loadingView.backgroundColor = UIColor.blackColor()
+        loadingView.backgroundColor = UIColor.black
         loadingView.clipsToBounds = true
         loadingView.layer.cornerRadius = 10
 
-        activityIndicatorView.center = CGPointMake(loadingView.frame.size.width / 2,
-                                    loadingView.frame.size.height / 2);
+        activityIndicatorView.center = CGPoint(x: loadingView.frame.size.width / 2,
+                                    y: loadingView.frame.size.height / 2);
         loadingView.addSubview(activityIndicatorView)
         view.addSubview(loadingView)
         activityIndicatorView.startAnimating()
-        loadingView.hidden = true
+        loadingView.isHidden = true
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         tableView.reloadData()
     }
     //---------Bar button item-----------
-    @IBAction func barButtonSort(sender: AnyObject) {
+    @IBAction func barButtonSort(_ sender: AnyObject) {
         let appearance = SCLAlertView.SCLAppearance(
             kTitleTop: 30,
             kTitleHeight: 50,
@@ -94,7 +94,7 @@ class OnlineViewController: handleRowActions{
             colorStyle: 8094972,
             colorTextButton: 16777215,
             circleIconImage: nil,
-            animationStyle: SCLAnimationStyle.TopToBottom
+            animationStyle: SCLAnimationStyle.topToBottom
         )
         showResults(searchBar.text!)
     }
